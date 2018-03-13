@@ -1,17 +1,25 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <mainNav title="Hello World - IU" msg="menu"/>
+    <headMenu/>
   </div>
 </template>
+<!-- Custom styles for this template -->
+<link href="assets/css/common.css" rel="stylesheet"/>
+<!-- Custom scripts for this template -->
+<script src="./assets/js/new-age.min.js"></script>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import mainNav from './components/main/mainNav.vue'
+import headMenu from './components/main/headMenu.vue'
 
 export default {
   name: 'app',
-  components: {
-    HelloWorld
+  components : {
+    mainNav,
+    headMenu
   }
 }
 </script>

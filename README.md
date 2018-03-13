@@ -8,6 +8,13 @@ npm install -g @vue/cli
 vue create <preject_name>
 </pre>
 
+<h5>기타 플로그인 설치<h5>
+<pre>
+npm i bootstrap-vue --save
+npm install --save-dev style-loader css-loader --save
+npm install vue-router —save
+</pre>
+
 <h5>Git에서 받은 후 작업</h5>
 <pre>
 npm install 
