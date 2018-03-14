@@ -354,29 +354,3 @@ footer ul li a.active,footer ul li a:active,footer ul li a:focus,footer ul li a:
   padding: 15px 45px
 }
 
-.carousel-inner img {
-  max-width: 100%;
-  width:100%;
-  height: 100%;
-}
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  height: 100px;
-  width: 100px;
-  background-size: 100%, 100%;
-  background-image: none;
-}
-.carousel-control-next-icon:after
-{
-  background-image: none;
-  content: '>';
-  font-size: 75px;
-  color: red;
-}
-
-.carousel-control-prev-icon:after {
-  background-image: none;
-  content: '<';
-  font-size: 75px;
-  color: red;
-}
