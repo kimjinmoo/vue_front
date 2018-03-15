@@ -13,7 +13,15 @@
         "title" : "docker 세팅",
         "description" : "세팅 정보 안내",
         "url" : "",
-        "imageUrl" : "/resource/img/index/jenkins.jpeg",
+        "imageUrl" : "/resource/img/index/docker.png",
+        "alt" : ""
+      },
+      {
+        "id"  : 1,
+        "title" : "docker 세팅-2",
+        "description" : "세팅 정보 안내",
+        "url" : "",
+        "imageUrl" : "/resource/img/index/docker.png",
         "alt" : ""
       }
     ]
