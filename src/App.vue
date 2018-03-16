@@ -10,7 +10,7 @@
         </b-collapse>
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
-            <a data-toggle="modal" data-target="#commonLoginPopup" class="my-2 my-sm-0">로그인</a>
+            <b-nav-item size="sm" class="my-2 my-sm-0" to="/signIn">로그인</b-nav-item>
             <b-nav-item size="sm" class="my-2 my-sm-0" to="/signUp">회원가입</b-nav-item>
           </b-nav-form>
         </b-navbar-nav>
