@@ -4,7 +4,7 @@
 
 <h5>- 최초 세팅 방법</h5>
 <pre>
-npm install -g @vue/cli
+ npm install --global vue-cli
 vue create <preject_name>
 </pre>
 
