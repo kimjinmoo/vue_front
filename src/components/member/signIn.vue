@@ -1,56 +1,53 @@
 <template>
   <div class="container">
-    <b-form @submit="onSubmit" @reset="onReset">
-      <b-form-group id="exampleInputGroup1"
-                    label="Email address:"
-                    label-for="exampleInput1"
-                    description="We'll never share your email with anyone else.">
-        <b-form-input id="exampleInput1"
+    <b-form>
+      <b-form-group id="emailGroup"
+                    label="이메일 주소 :"
+                    label-for="email">
+        <b-form-input id="email"
                       type="email"
                       v-model="form.email"
                       required
-                      placeholder="Enter email">
+                      placeholder="ID를 입력하세요.">
         </b-form-input>
       </b-form-group>
-      <b-form-group id="exampleInputGroup2"
-                    label="Your Name:"
-                    label-for="exampleInput2">
-        <b-form-input id="exampleInput2"
-                      type="text"
-                      v-model="form.name"
+      <b-form-group id="passwdGroup"
+                    label="비밀번호 :"
+                    label-for="passwd">
+        <b-form-input id="passwd"
+                      type="password"
+                      v-model="form.password"
                       required
-                      placeholder="Enter name">
+                      placeholder="비밀번호를 입력해주세요">
         </b-form-input>
       </b-form-group>
-      <b-form-group id="exampleGroup4">
-        <b-form-checkbox-group v-model="form.checked" id="exampleChecks">
-          <b-form-checkbox value="me">Check me out</b-form-checkbox>
-          <b-form-checkbox value="that">Check that out</b-form-checkbox>
-        </b-form-checkbox-group>
-      </b-form-group>
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button type="button" variant="primary" v-on:click="signIn">로그인</b-button>
     </b-form>
   </div>
 
 </template>
-<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
 <script>
+  import firebase from 'firebase';
+
   export default {
     name: 'signIn',
      data() {
       return {
         form : {
-
+          email : "",
+          password : ""
         }
       }
      },
     methods : {
-      onSubmit(evt) {
-
-      },
-      onReset(evt) {
-
+      signIn() {
+        firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password).then(
+            () => {
+              this.$router.replace('/');
+            }, (err) => {
+              alert(err.message)
+            }
+        )
       }
     }
   }

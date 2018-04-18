@@ -8,6 +8,10 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(icons);
 
+
+
+
+
 new Vue({
   router,
   render: h => h(App)

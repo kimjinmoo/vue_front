@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="md" type="light" variant="white" fixed="top" class="container">
+    <b-navbar toggleable="md" type="light" variant="white" class="container">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
         <b-navbar-brand href="/">Hello World - IU</b-navbar-brand>
         <b-collapse is-nav id="nav_collapse" right>
@@ -8,12 +8,7 @@
             <b-nav-item target="_blank" :href="menu.url" v-for="menu in menuLists" v-bind:key="menu.id">{{menu.name}}</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
-        <b-navbar-nav class="ml-auto">
-          <b-nav-form>
-            <b-nav-item size="sm" class="my-2 my-sm-0" to="/signIn">로그인</b-nav-item>
-            <b-nav-item size="sm" class="my-2 my-sm-0" to="/signUp">회원가입</b-nav-item>
-          </b-nav-form>
-        </b-navbar-nav>
+        <auth></auth>
     </b-navbar>
     <router-view></router-view>
     <footer>
@@ -31,17 +26,17 @@
 <link href="assets/css/common.css" rel="stylesheet"/>
 <!-- Custom scripts for this template -->
 <script src="./assets/js/new-age.min.js"></script>
-
 <script>
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import home from './components/main/home'
+import auth from './Auth'
 import axios from 'axios'
 
 export default {
   name: 'app',
   components : {
-    home
+    home, auth
   },
   data() {
     return {
@@ -51,14 +46,14 @@ export default {
   created() {
     axios.get("/fake/headMenu.json")
     .then((response) => {
-      console.log("success : " + JSON.stringify(response));
       this.menuLists = response.data.menuLists;
-
     })
     .catch((err)=>{
       console.log("err");
     })
-  }
+  },
+  methods : {
 
+  }
 }
 </script>

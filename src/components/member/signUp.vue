@@ -24,6 +24,12 @@
 <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
 <script>
   export default {
-    name: 'signUp'
+    name: 'signUp',
+    methods : {
+      onHome : function() {
+      },
+      onSignUp : function() {
+      }
+    }
   }
 </script>

@@ -15,6 +15,7 @@ npm install --save-dev style-loader css-loader --save
 npm install vue-router —save
 npm install axios --save
 npm install --save glyphicons
+npm install -g npm-install-peers
 </pre>
 
 <h5>Git에서 받은 후 작업</h5>

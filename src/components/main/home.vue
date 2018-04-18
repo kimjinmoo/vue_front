@@ -9,7 +9,7 @@
           <img :src="item.imageUrl" class="" :alt="item.alt">
           <div class="container">
             <div class="carousel-caption text-left">
-              <h1>{{item.title}}}</h1>
+              <h1>{{item.title}}</h1>
               <p>{{item.description}}</p>
               <p><a :href="item.url">보러가기</a></p>
             </div>
@@ -34,8 +34,7 @@
   export default {
     name: 'home',
     props : {
-      title : String,
-      isLogin : Boolean
+      title : String
     },
     data() {
       return {
@@ -45,11 +44,11 @@
     created() {
       axios.get("/fake/slideData.json")
       .then((response) => {
-        console.log("success : " + JSON.stringify(response));
+        //console.log("success : " + JSON.stringify(response));
         this.slideLists = response.data.slideLists;
       })
       .catch((err)=>{
-        console.log("err");
+        //console.log("err");
       })
     }
   }
