@@ -2,7 +2,7 @@
   <div class="container">
     <b-form>
       <b-form-group id="emailGroup"
-                    label="이메일 주소 :"
+                    label="ID :"
                     label-for="email">
         <b-form-input id="email"
                       type="email"
@@ -21,7 +21,12 @@
                       placeholder="비밀번호를 입력해주세요">
         </b-form-input>
       </b-form-group>
-      <b-button type="button" variant="primary" v-on:click="signIn">로그인</b-button>
+      <div align-h="end">
+        <b-button-group >
+          <b-button variant="primary" v-on:click="signIn">로그인</b-button>
+          <b-button variant="primary" to="/signUp">회원가입</b-button>
+        </b-button-group>
+      </div>
     </b-form>
   </div>
 
