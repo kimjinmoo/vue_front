@@ -1,5 +1,9 @@
 <template>
   <div class="container">
+    <loading
+        :show="show"
+        :label="label">
+    </loading>
     <b-form>
       <b-form-group id="emailGroup"
                     label="ID :"
@@ -21,7 +25,7 @@
                       placeholder="비밀번호를 입력해주세요">
         </b-form-input>
       </b-form-group>
-      <div align-h="end">
+      <div style="text-align: right">
         <b-button-group >
           <b-button variant="primary" v-on:click="signIn">로그인</b-button>
           <b-button variant="primary" to="/signUp">회원가입</b-button>
@@ -33,11 +37,17 @@
 </template>
 <script>
   import firebase from 'firebase';
+  import loading from 'vue-full-loading'
 
   export default {
     name: 'signIn',
+    components:{
+      loading
+    },
      data() {
       return {
+        show: true,
+        label: 'Loading...',
         form : {
           email : "",
           password : ""

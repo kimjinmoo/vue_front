@@ -25,6 +25,15 @@
         <span class="sr-only">다음</span>
       </a>
     </div>
+    <!-- Page Content -->
+    <section class="py-5">
+      <div v-for="(item) in sectionLists" :key="item.id">
+        <h1>{{item.title}}</h1>
+        <p>{{item.description}}
+          <b-button size="sm" variant="outline-success">이동</b-button>
+        </p>
+      </div>
+    </section>
   </main>
 </template>
 <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
@@ -38,18 +47,24 @@
     },
     data() {
       return {
-        slideLists : []
+        slideLists : [],
+        sectionLists : []
       }
     },
     created() {
       axios.get("/fake/slideData.json")
       .then((response) => {
-        //console.log("success : " + JSON.stringify(response));
         this.slideLists = response.data.slideLists;
       })
       .catch((err)=>{
         //console.log("err");
       })
+      axios.get("/fake/sectionData.json")
+      .then((response) => {
+        this.sectionLists = response.data.sectionLists;
+      }).catch((e)=>{
+
+      });
     }
   }
 </script>

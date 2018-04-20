@@ -4,7 +4,7 @@
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar-brand href="/">Hello World - IU</b-navbar-brand>
       <b-collapse is-nav id="nav_collapse" right>
-        <b-navbar-nav>
+        <b-navbar-nav v-if="isLogin">
           <b-nav-item target="_blank" :href="menu.url" v-for="menu in menuLists"
                       v-bind:key="menu.id">{{menu.name}}
           </b-nav-item>
@@ -21,14 +21,12 @@
       </b-navbar-nav>
     </b-navbar>
     <router-view></router-view>
-    <footer>
+    <!-- Footer -->
+    <footer class="py-5">
       <div class="container">
-        <ul class="list-inline">
-          <li class="list-inline-item">
-            Since 2018 IU
-          </li>
-        </ul>
+        <p class="m-0 text-center text-dark">Copyright &copy; Since 2018</p>
       </div>
+      <!-- /.container -->
     </footer>
   </div>
 </template>
