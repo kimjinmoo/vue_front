@@ -1,13 +1,13 @@
 <template>
-  <main role="main" class="container">
+  <div>
     <div id="home-slide" class="carousel slide text-center" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#home-slide" v-bind:data-slide-to="item.id" v-for="(item, index) in slideLists" :key="item.id" :class="{'active': index === 0}"></li>
       </ol>
       <div class="carousel-inner">
         <div class="carousel-item" v-for="(item, index) in slideLists" :key="item.id" :class="{'active': index === 0}">
-          <img :src="item.imageUrl" class="" :alt="item.alt">
-          <div class="container">
+          <img :src="item.imageUrl" class="fixImg" :alt="item.alt">
+          <div>
             <div class="carousel-caption text-left">
               <h1>{{item.title}}</h1>
               <p>{{item.description}}</p>
@@ -34,7 +34,7 @@
         </p>
       </div>
     </section>
-  </main>
+  </div>
 </template>
 <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
 <script>
@@ -69,6 +69,10 @@
   }
 </script>
 <style>
+  .fixImg {
+    max-height: 100%;
+    max-width: 100%;
+  }
   .carousel-control-prev-icon,
   .carousel-control-next-icon {
     height: 100px;
