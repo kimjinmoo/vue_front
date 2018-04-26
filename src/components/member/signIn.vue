@@ -23,7 +23,6 @@
 <script>
   import firebase from 'firebase';
   import loading from 'vue-full-loading'
-
   export default {
     name: 'signIn',
     components:{
@@ -40,12 +39,18 @@
       }
      },
     methods : {
+      successLogin() {
+        firebase.auth().onAuthStateChanged((u)=>{
+          if(u) this.$router.replace('/');
+        });
+      },
       signInByGoogle() {
+        this.$parent.showLoading(true);
         var provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).then((r)=> {
-          var token = r.credential.accessToken;
-          var user = r.user;
-          console.log(user+"/"+token);
+        firebase.auth().signInWithPopup(provider).then(()=> {
+          // var token = r.credential.accessToken;
+          // var user = r.user;
+          this.successLogin();
         }).catch(function(error) {
           var errorCode = error.code;
           // var errorMessage = error.message;
@@ -56,15 +61,17 @@
           } else {
             console.error(error);
           }
-        });
+        }).then(()=>{this.$parent.showLoading(false);});
       },
       signIn() {
+        this.$parent.showLoading(true);
         firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password).then(
             () => {
+              this.successLogin();
             }, (err) => {
               alert(err.message)
             }
-        )
+        ).then(()=>{this.$parent.showLoading(false);});
       }
     }
   }

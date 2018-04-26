@@ -20,7 +20,6 @@
       </div>
   </div>
 </template>
-<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
 <script>
   import firebase from 'firebase';
 

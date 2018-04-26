@@ -1,30 +1,22 @@
 <template>
   <div>
-    <div id="home-slide" class="carousel slide text-center" data-ride="carousel">
-      <ol class="carousel-indicators">
-        <li data-target="#home-slide" v-bind:data-slide-to="item.id" v-for="(item, index) in slideLists" :key="item.id" :class="{'active': index === 0}"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="carousel-item" v-for="(item, index) in slideLists" :key="item.id" :class="{'active': index === 0}">
-          <img :src="item.imageUrl" class="fixImg" :alt="item.alt">
-          <div>
-            <div class="carousel-caption text-left">
-              <h1>{{item.title}}</h1>
-              <p>{{item.description}}</p>
-              <p><a :href="item.url">보러가기</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a class="carousel-control-prev" href="#home-slide" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">이전</span>
-      </a>
-      <a class="carousel-control-next" href="#home-slide" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">다음</span>
-      </a>
-    </div>
+    <b-carousel id="slider"
+                style="text-shadow: 1px 1px 2px #333;"
+                controls
+                indicators
+                background="#ababab"
+                :interval="4000"
+                img-width="1024"
+                img-height="480"
+                v-model="slide"
+                @sliding-start="onSlideStart"
+                @sliding-end="onSlideEnd"
+    >
+
+      <b-carousel-slide :caption="item.title" :text="item.description" :img-src="item.imageUrl" v-bind:data-slide-to="item.id" v-for="(item, index) in slideLists" :key="item.id" :class="{'active': index === 0}" class="fixImg">
+        <p><router-link :to="item.url">보러가기</router-link></p>
+      </b-carousel-slide>
+    </b-carousel>
     <!-- Page Content -->
     <section class="py-5">
       <div v-for="(item) in sectionLists" :key="item.id">
@@ -47,6 +39,8 @@
     },
     data() {
       return {
+        slide: 0,
+        sliding: null,
         slideLists : [],
         sectionLists : []
       }
@@ -56,21 +50,29 @@
       .then((response) => {
         this.slideLists = response.data.slideLists;
       })
-      .catch((err)=>{
+      .catch(()=>{
         //console.log("err");
       })
       axios.get("/fake/sectionData.json")
       .then((response) => {
         this.sectionLists = response.data.sectionLists;
-      }).catch((e)=>{
+      }).catch(()=>{
 
       });
+    },
+    methods : {
+      onSlideStart (slide) {
+        this.sliding = true
+      },
+      onSlideEnd (slide) {
+        this.sliding = false
+      }
     }
   }
 </script>
 <style>
   .fixImg {
-    max-height: 100%;
+    max-height: 900px;
     max-width: 100%;
   }
   .carousel-control-prev-icon,
