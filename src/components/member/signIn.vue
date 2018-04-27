@@ -6,7 +6,9 @@
         <small class="text-muted">Login via</small>
         <br><br>
         <p>
-          <a class="btn btn-primary social-login-btn social-google" href="javascript:void(0);" v-on:click="signInByGoogle"><i class="fa fa-google"></i></a>
+          <a class="btn btn-primary social-login-btn social-google" href="javascript:void(0);" v-on:click="signInByGoogle"><i class="fa icon-social-google"></i></a>
+          &nbsp;
+          <a class="btn btn-primary social-login-btn social-facebook" href="javascript:void(0);" v-on:click="signInByFaceBook"><i class="fa icon-social-facebook"></i></a>
         </p>
         <small class="text-muted">또는 일반 로그인</small>
         <br><br>
@@ -43,6 +45,25 @@
         firebase.auth().onAuthStateChanged((u)=>{
           if(u) this.$router.replace('/');
         });
+      },
+      signInByFaceBook() {
+        this.$parent.showLoading(true);
+        var provider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithPopup(provider).then(()=> {
+          // var token = r.credential.accessToken;
+          // var user = r.user;
+          this.successLogin();
+        }).catch(function(error) {
+          var errorCode = error.code;
+          // var errorMessage = error.message;
+          // var email = error.email;
+          // var credential = error.credential;
+          if (errorCode === 'auth/account-exists-with-different-credential') {
+            alert('You have already signed up with a different auth provider for that email.');
+          } else {
+            console.error(error);
+          }
+        }).then(()=>{this.$parent.showLoading(false);});
       },
       signInByGoogle() {
         this.$parent.showLoading(true);

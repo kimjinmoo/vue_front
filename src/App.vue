@@ -4,9 +4,9 @@
         :show="isLoading"
         :label="label">
     </loading>
-    <b-navbar toggleable="md" type="light" variant="write">
+    <b-navbar toggleable="md" type="light" variant="write" v-scroll="scrollHandler">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-      <b-navbar-brand to="/">GrepIU</b-navbar-brand>
+      <b-navbar-brand to="/" >GrepIU</b-navbar-brand>
       <b-collapse is-nav id="nav_collapse" right>
         <b-navbar-nav>
           <b-nav-item to="/about">About</b-nav-item>
@@ -21,8 +21,8 @@
               <span v-else>{{u.email}}</span>
             </template>
             <b-nav-item v-if="!isLogin" to="/signIn">로그인</b-nav-item>
-            <b-nav-item v-if="!isLogin" to="/signIn">도움말</b-nav-item>
-            <b-nav-item v-if="isLogin" v-on:click="signOut">계정관리</b-nav-item>
+            <b-nav-item v-if="!isLogin">도움말</b-nav-item>
+            <b-nav-item v-if="isLogin">계정관리</b-nav-item>
             <b-nav-item v-if="isLogin" v-on:click="signOut">로그아웃</b-nav-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -33,15 +33,13 @@
     </main>
     <!-- Footer -->
     <footer class="py-5">
-      <div class="container">
-        <p class="m-0 text-center text-dark">Copyright &copy; Since 2018</p>
-      </div>
+      <ul>
+        <p class="m-0 text-center text-write">Since 2018, GrepIU</p>
+      </ul>
       <!-- /.container -->
     </footer>
   </div>
 </template>
-<!-- Custom styles for this template -->
-<link href="assets/css/common.css" rel="stylesheet"/>
 <script>
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -54,10 +52,25 @@
     components : {
       loading
     },
+    directives : {
+      scroll : {
+        inserted : function(el, binding) {
+          console.log("el : " + el);
+          console.log("binding : " + binding);
+          let f = function(evt) {
+            if(binding.value(evt, el)) {
+              window.removeEventListener('scroll', f)
+            }
+          }
+          window.addEventListener('scroll', f);
+        }
+      }
+    },
     data() {
       return {
         u : {},
         isLogin : false,
+        isMenuHide : false,
         menuLists: [],
         isLoading : false,
         label : '데이터를 읽고 있습니다.'
@@ -66,12 +79,19 @@
     watch : {
       '$route' (to, from) {
         // 경로 변경에 반응하여...
-        console.log(to)
-        console.log(from)
+        console.log(to);
+        console.log(from);
       }
     },
-
     methods: {
+      scrollHandler() {
+        if(window.scrollY > 80) {
+          this.isMenuHide = true;
+        } else {
+          this.isMenuHide = false;
+        }
+        console.log(this.isMenuHide);
+      },
       showLoading(is) {
         this.isLoading = is;
       },
@@ -84,7 +104,6 @@
         } else {
           this.isLogin = false;
         }
-
       },
       signOut() {
         firebase.auth().signOut().then(()=>{

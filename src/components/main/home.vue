@@ -12,7 +12,6 @@
                 @sliding-start="onSlideStart"
                 @sliding-end="onSlideEnd"
     >
-
       <b-carousel-slide :caption="item.title" :text="item.description" :img-src="item.imageUrl" v-bind:data-slide-to="item.id" v-for="(item, index) in slideLists" :key="item.id" :class="{'active': index === 0}" class="fixImg">
         <p><router-link :to="item.url">보러가기</router-link></p>
       </b-carousel-slide>
@@ -42,7 +41,8 @@
         slide: 0,
         sliding: null,
         slideLists : [],
-        sectionLists : []
+        sectionLists : [],
+        interval: false
       }
     },
     created() {
@@ -72,7 +72,7 @@
 </script>
 <style>
   .fixImg {
-    max-height: 900px;
+    max-height: 885px;
     max-width: 100%;
   }
   .carousel-control-prev-icon,
