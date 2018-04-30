@@ -1,24 +1,19 @@
 {
   "menuLists" : [
     {
-      "id" : 1,
-      "name" : "jenkins",
-      "url" : "http://13.125.38.35:9000"
+      "id": 1,
+      "name": "영화찾기",
+      "url": "/tools/movie"
     },
     {
       "id" : 2,
-      "name" : "swagger-doc",
-      "url" : "http://13.124.113.142/swagger-ui.html"
+      "name" : "Lap",
+      "url" : "/lab"
     },
     {
       "id" : 3,
-      "name" : "webSocket",
-      "url" : "http://13.124.113.142"
-    },
-    {
-      "id" : 4,
-      "name" : "slack",
-      "url" : "https://iustudy.slack.com"
+      "name" : "Post",
+      "url" : "/post"
     }
   ]
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="container text-center">
       <form class="form-signin" data-ember-action="2">
         <h2 class="form-signin-heading">로그인</h2>

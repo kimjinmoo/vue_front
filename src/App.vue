@@ -10,7 +10,7 @@
       <b-collapse is-nav id="nav_collapse" right>
         <b-navbar-nav>
           <b-nav-item to="/about">About</b-nav-item>
-          <b-nav-item v-if="isLogin" target="_blank" :href="menu.url" v-for="menu in menuLists"
+          <b-nav-item v-if="isLogin" :to="menu.url" v-for="menu in menuLists"
                       v-bind:key="menu.id">{{menu.name}}
           </b-nav-item>
         </b-navbar-nav>
@@ -78,7 +78,6 @@
     },
     watch : {
       '$route' (to, from) {
-        // 경로 변경에 반응하여...
         console.log(to);
         console.log(from);
       }

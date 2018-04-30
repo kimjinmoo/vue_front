@@ -16,6 +16,9 @@ npm install vue-router —save
 npm install axios --save
 npm install --save glyphicons
 npm install -g npm-install-peers
+npm install --save firebase
+npm install --save vue-browser-geolocation
+npm install --save vue2-google-maps
 </pre>
 
 <h5>Git에서 받은 후 작업</h5>

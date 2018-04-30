@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <b-carousel id="slider"
                 style="text-shadow: 1px 1px 2px #333;"
                 controls

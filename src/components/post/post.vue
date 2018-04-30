@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">
-    About
+    Post
   </div>
 </template>
 <script>
-  export default {name:"About"};
+  export default {name: "Post"}
 </script>

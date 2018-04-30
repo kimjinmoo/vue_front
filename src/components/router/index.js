@@ -6,7 +6,12 @@ import About from '@/components/main/about'
 
 import SignUp from '@/components/member/signUp'
 import SignIn from '@/components/member/signIn'
+
+import Post from "@/components/post/post"
 import PostView from '@/components/post/view'
+
+import Lab from "@/components/lap/lab"
+import Movie from '@/components/tools/movie'
 
 Vue.use(VueRouter);
 
@@ -34,9 +39,27 @@ export default new VueRouter({
       component: SignIn
     },
     {
+      path: '/post',
+      name: 'Post',
+      component: Post
+    },
+    {
       path: '/post/:id',
       name: 'PostView',
       component: PostView
+    },
+    {
+      path: '/lab',
+      name : 'Lab',
+      component: Lab,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path : "/tools/movie",
+      name: "Movie",
+      component: Movie
     }
   ]
 });

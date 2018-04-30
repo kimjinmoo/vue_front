@@ -1,5 +1,5 @@
 <template>
-  <div id="regForm" class="signUpFrom">
+  <div id="regForm" class="signUpFrom container-fluid">
       <div class="container">
         <h2>회원가입</h2>
         <div class="form-group">

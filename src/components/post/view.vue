@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     {{$route.params.id}}
   </div>
 </template>
