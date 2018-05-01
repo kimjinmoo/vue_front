@@ -17,6 +17,7 @@ Vue.use(VueGoogleMaps, {
   }
 })
 router.beforeEach((to,from,next) =>{
+  // 권한 설정
   const currentUser = firebase.auth().currentUser;
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   if (requiresAuth && !currentUser) {
