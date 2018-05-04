@@ -60,7 +60,7 @@
         this.center.lat = this.myPosition.lat;
         this.center.lng = this.myPosition.lng;
       },
-      findMyLocation(resolve, reject) {
+      findMyLocation() {
         console.log("navigator.geolocation : " + navigator.geolocation);
         if(navigator.geolocation){
           this.$getLocation()

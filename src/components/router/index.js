@@ -11,7 +11,7 @@ import Post from "@/components/post/post"
 import PostView from '@/components/post/view'
 
 import Lab from "@/components/lap/lab"
-import Movie from '@/components/tools/movie'
+import Movie from '@/components/lap/movie'
 
 Vue.use(VueRouter);
 
@@ -57,9 +57,12 @@ export default new VueRouter({
       }
     },
     {
-      path : "/tools/movie",
+      path : "/lab/movie",
       name: "Movie",
-      component: Movie
+      component: Movie,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 });

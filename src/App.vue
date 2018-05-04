@@ -32,12 +32,7 @@
       <router-view></router-view>
     </main>
     <!-- Footer -->
-    <footer class="py-5">
-      <ul>
-        <p class="m-0 text-center text-write">Since 2018, GrepIU</p>
-      </ul>
-      <!-- /.container -->
-    </footer>
+    <homeFooter></homeFooter>
   </div>
 </template>
 <script>
@@ -46,11 +41,13 @@
   import loading from 'vue-full-loading'
   import axios from 'axios'
   import firebase from 'firebase'
+  import homeFooter from '@/components/main/footer'
 
   export default {
     name: 'app',
     components : {
-      loading
+      loading,
+      homeFooter
     },
     directives : {
       scroll : {
