@@ -61,7 +61,6 @@
         this.center.lng = this.myPosition.lng;
       },
       findMyLocation() {
-        console.log("navigator.geolocation : " + navigator.geolocation);
         if(navigator.geolocation){
           this.$getLocation()
           .then(coordinates => {
@@ -82,7 +81,7 @@
 
     },
     beforeCreate() {
-      axios.get("http://localhost:8010/sample/crawler/lotteCineLocale")
+      axios.get("http://conf.grepiu.com/sample/crawler/lotteCineLocale")
       .then((response) => {
         this.markers = response.data;
       })
