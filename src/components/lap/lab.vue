@@ -10,7 +10,7 @@
     </b-jumbotron>
     <b-jumbotron header="Jenkins" lead="배포" >
       <p>확인 하시려면 more Info 클릭</p>
-      <b-btn variant="primary" href="http://conf.grepiu.com:9000" target="_blank">More Info</b-btn>
+      <b-btn variant="primary" href="http://13.124.113.142:9000/" target="_blank">More Info</b-btn>
     </b-jumbotron>
     <b-jumbotron header="WebSocket" lead="Websocket을 이용한 Push" >
       <p>확인 하시려면 more Info 클릭</p>
