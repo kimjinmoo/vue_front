@@ -85,8 +85,8 @@
       .then((response) => {
         this.markers = response.data;
       })
-      .catch(()=>{
-        //console.log("err");
+      .catch((e)=>{
+        console.log(e);
       })
     },
     mounted() {

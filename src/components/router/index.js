@@ -12,10 +12,11 @@ import PostView from '@/components/post/view'
 
 import Lab from "@/components/lap/lab"
 import Movie from '@/components/lap/movie'
+import firebase from "firebase/index";
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
-export default new VueRouter({
+const router = Vue.router = new VueRouter({
   mode: 'history',
   routes: [
     {
@@ -66,3 +67,20 @@ export default new VueRouter({
     }
   ]
 });
+router.beforeEach((to,from,next) =>{
+  // 권한 설정
+  firebase.auth().onAuthStateChanged(()=>{
+    const currentUser = firebase.auth().currentUser;
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    console.log("currentUser : "+currentUser);
+    console.log("requiresAuth : "+requiresAuth);
+    if (requiresAuth && !currentUser) {
+      next('/signIn');
+    } else if (requiresAuth && currentUser) {
+      next();
+    } else {
+      next();
+    }
+  })
+});
+export default router

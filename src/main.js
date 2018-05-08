@@ -15,21 +15,9 @@ Vue.use(VueGoogleMaps, {
     key: 'AIzaSyCdlJJ5RuA6jrq-VzexA-8ryqOJVqTJJ-Y',
     libraries: 'places,drawing,visualization'
   }
-})
-router.beforeEach((to,from,next) =>{
-  // 권한 설정
-  const currentUser = firebase.auth().currentUser;
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if (requiresAuth && !currentUser) {
-    next('/signIn');
-  } else if (requiresAuth && currentUser) {
-    next();
-  } else {
-    next();
-  }
-})
+});
 firebase.initializeApp(config);
 new Vue({
   router,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');

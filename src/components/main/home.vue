@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid" style="padding: 0px;">
     <div class="grp bg_00">
-      <div class="weatherEffect" v-html="weatherEffect"></div>
       <p class="day_text">{{nowData}}</p>
       <p class="time_text">{{nowTime}}</p>
     </div>
@@ -47,7 +46,6 @@
     },
     data() {
       return {
-        weatherEffect : "",
         nowData : "읽는중...",
         nowTime : "읽는중...",
         slide: 0,
@@ -82,14 +80,11 @@
       }).catch(()=>{
 
       });
-      this.weatherEffect();
     },
     methods : {
       zero(number) {
         var d = "0000000000"+number;
         return d.substr(d.length-2, d.length);
-      },
-      weatherEffect() {
       },
       onSlideStart (slide) {
         this.sliding = true
