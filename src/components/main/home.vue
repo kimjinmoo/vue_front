@@ -1,7 +1,8 @@
 <template>
   <div class="container-fluid" style="padding: 0px;">
     <div class="grp bg_00">
-      <p>{{nowData}}</p>
+      <div class="weatherEffect" v-html="weatherEffect"></div>
+      <p class="day_text">{{nowData}}</p>
       <p class="time_text">{{nowTime}}</p>
     </div>
     <!--<b-carousel id="slider"-->
@@ -20,17 +21,18 @@
         <!--<p><router-link :to="item.url">보러가기</router-link></p>-->
       <!--</b-carousel-slide>-->
     <!--</b-carousel>-->
-    <div class="grp bg_write">
+    <!--<div class="grp bg_write">-->
+      <!--<div class="rain front-row" v-html="frontRain"></div>-->
       <!-- 세션 -->
-      <section class="py-5">
-        <div v-for="(item) in sectionLists" :key="item.id">
-          <h1>{{item.title}}</h1>
-          <p>{{item.description}}
-            <b-button size="sm" variant="outline-success">이동</b-button>
-          </p>
-        </div>
-      </section>
-    </div>
+      <!--<section class="py-5">-->
+        <!--<div v-for="(item) in sectionLists" :key="item.id">-->
+          <!--<h1>{{item.title}}</h1>-->
+          <!--<p>{{item.description}}-->
+            <!--<b-button size="sm" variant="outline-success">이동</b-button>-->
+          <!--</p>-->
+        <!--</div>-->
+      <!--</section>-->
+    <!--</div>-->
 
   </div>
 </template>
@@ -45,8 +47,9 @@
     },
     data() {
       return {
-        nowData : "loading...",
-        nowTime : "loading...",
+        weatherEffect : "",
+        nowData : "읽는중...",
+        nowTime : "읽는중...",
         slide: 0,
         sliding: null,
         slideLists : [],
@@ -61,8 +64,8 @@
         var h = today.getHours();
         var m = today.getMinutes();
         var s = today.getSeconds();
-        this.nowData = today.getFullYear() + "." + (today.getMonth()+1) + "." + today.getDate()
-        this.nowTime =  h + ":" + m + ":" + s;
+        this.nowData = today.getFullYear() + "." + this.zero(today.getMonth()+1) + "." + this.zero(today.getDate())
+        this.nowTime =  this.zero(h) + ":" + this.zero(m) + ":" + this.zero(s);
       }, 1000)
       // 슬라이드 화면을 불러온다.
       axios.get("/fake/slideData.json")
@@ -79,8 +82,15 @@
       }).catch(()=>{
 
       });
+      this.weatherEffect();
     },
     methods : {
+      zero(number) {
+        var d = "0000000000"+number;
+        return d.substr(d.length-2, d.length);
+      },
+      weatherEffect() {
+      },
       onSlideStart (slide) {
         this.sliding = true
       },
@@ -92,7 +102,7 @@
 </script>
 <style>
   .fixImg {
-    max-height: 885px;
+    max-height: 100%;
     max-width: 100%;
   }
   .carousel-control-prev-icon,
@@ -118,29 +128,34 @@
   }
   .grp {
     width : 100%;
-    height : 100%;
-    max-height: 885px;
-    max-width: 100%;
+    max-height : max-content;
   }
   .bg_00 {
-    background-image: url('/img/bg/bg00.jpg');
+    background : url('/img/bg/bg00.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-size:     cover;
-    background-repeat: no-repeat;
-    opacity: 0.5!important; filter:alpha(opacity=50);
-    min-height: 300px;
+    #opacity: 0.5!important; filter:alpha(opacity=50);
+  }
+  .grp .day_text {
+    position: absolute;
+    color: white;
+    text-align: left;
+    font-size: 2vw;
+  }
+  .grp .time_text {
     color: white;
     text-align: center;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
+    font-size: 23vw;
   }
-  .time_text {
-    font-size: 25vw;
-  }
-  .bg_gray{
+  .grp .bg_gray{
     background-color: whitesmoke;
   }
-  .bg_write{
+  .grp .bg_write{
     background-color: white;
+  }
+  .weatherEffect {
+    display: none;
   }
 </style>
