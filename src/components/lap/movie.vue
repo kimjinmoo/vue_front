@@ -81,7 +81,7 @@
 
     },
     beforeCreate() {
-      axios.get("http://conf.grepiu.com/sample/crawler/lotteCineLocale")
+      axios.get("https://conf.grepiu.com/sample/crawler/lotteCineLocale")
       .then((response) => {
         this.markers = response.data;
       })
