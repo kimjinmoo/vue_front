@@ -23,11 +23,7 @@
           :draggable="false"
           :InfoWindow="m.storeName"
           @click="onMarker(m.storeName, m.position)"
-      >
-        <gmap-info-window :position="m.position">
-          롯데시네마 : {{m.storeName}}
-        </gmap-info-window>
-      </GmapMarker>
+      />
       <gmap-info-window :position="myPosition">
         현재 나의 위치!!
       </gmap-info-window>
