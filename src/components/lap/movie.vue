@@ -4,7 +4,7 @@
              :show="showDismissibleAlert"
              @dismissed="showDismissibleAlert=false">{{message}}</b-alert>
     <b-button v-on:click="setMyLocation">위치 찾기</b-button>
-    <p>lat : {{center.lat}} / lng : {{center.lng}}</p>
+    <p>lat : {{currentLatLng.lat}} / lng : {{currentLatLng.lng}}</p>
     <!--:dragend="myPosition"-->
     <!--@center_changed="updateCenter"-->
     <GmapMap :center="center"
@@ -22,8 +22,8 @@
           :clickable="true"
           :draggable="false"
           :InfoWindow="m.storeName"
-          @click="onMarker(m.storeName, m.position)"
-      />
+          @click="onMarker(m.storeName, m.position)">
+      </GmapMarker>
       <gmap-info-window :position="myPosition">
         현재 나의 위치!!
       </gmap-info-window>
@@ -46,6 +46,10 @@
           lat : 0,
           lng : 0
         },
+        currentLatLng : {
+          lat : 37.5665,
+          lng : 126.9780
+        },
         center : {
           lat : 37.5665,
           lng : 126.9780
@@ -61,8 +65,8 @@
       },
       onDragend() {
         this.$refs.mapRef.$mapPromise.then((map) => {
-          this.center.lat =  map.getCenter().lat();
-          this.center.lng =  map.getCenter().lng();
+          this.currentLatLng.lat =  map.getCenter().lat();
+          this.currentLatLng.lng =  map.getCenter().lng();
         });
         console.log("drag call");
       },
@@ -87,10 +91,16 @@
         if(navigator.geolocation){
           this.$getLocation()
           .then(coordinates => {
+            // 현재 나의 위치 infoWindow
             this.myPosition.lat = coordinates.lat;
             this.myPosition.lng = coordinates.lng;
+            // google Map Center
             this.center.lat = coordinates.lat;
             this.center.lng = coordinates.lng;
+            // Lat Lng 좌표값
+            this.currentLatLng.lat = coordinates.lat;
+            this.currentLatLng.lng = coordinates.lng;
+            // Zoom 값
             this.zoom = 17;
             this.$parent.showLoading(false);
           });
