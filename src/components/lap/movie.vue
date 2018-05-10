@@ -3,7 +3,10 @@
     <b-alert dismissible
              :show="showDismissibleAlert"
              @dismissed="showDismissibleAlert=false">{{message}}</b-alert>
-    <b-button v-on:click="setMyLocation">위치 찾기</b-button>
+    <b-button-group>
+      <b-button variant="success" v-on:click="setMyLocation">현재위치</b-button>
+      <b-button variant="success" v-on:click="onNearLocation">지도 기준 근처 영화관 검색(10km이내)</b-button>
+    </b-button-group>
     <p>lat : {{currentLatLng.lat}} / lng : {{currentLatLng.lng}}</p>
     <!--:dragend="myPosition"-->
     <!--@center_changed="updateCenter"-->
@@ -13,6 +16,7 @@
              ref="mapRef"
              @drag="onDrag"
              @dragend="onDragend"
+             @center_changed="updateCenter"
     >
       <GmapMarker
           :key="m.id"
@@ -28,6 +32,7 @@
         현재 나의 위치!!
       </gmap-info-window>
     </GmapMap>
+    <b-table striped hover :items="cineInfo"></b-table>
   </div>
 </template>
 <script>
@@ -41,7 +46,9 @@
     name : "movie",
     data() {
       return {
+        nearIndex : 0,
         markers : [],
+        cineInfo : [],
         myPosition : {
           lat : 0,
           lng : 0
@@ -54,38 +61,56 @@
           lat : 37.5665,
           lng : 126.9780
         },
-        zoom : 3,
+        zoom : 15,
         message : "",
         showDismissibleAlert : false
       }
     },
     methods : {
       onDrag() {
-        console.log("onDrag...");
+        this.cineInfo = [];
+        this.nearIndex = 0;
       },
       onDragend() {
         this.$refs.mapRef.$mapPromise.then((map) => {
           this.currentLatLng.lat =  map.getCenter().lat();
           this.currentLatLng.lng =  map.getCenter().lng();
         });
-        console.log("drag call");
       },
       onMarker(storeName, position) {
-        this.center = position;
-        this.zoom = 18;
+        this.$refs.mapRef.panTo(position);
+        axios.get("https://conf.grepiu.com/sample/crawler/lotteCine/"+storeName).then((res)=>{
+          this.cineInfo = res.data;
+        }).catch(()=>{
+          this.nearIndex++;
+          this.onNearLocation();
+        });
       },
-      updateCenter(center) {
-        this.center = {
-          lat: center.lat(),
-          lng: center.lng()
-        }
+      updateCenter() {
       },
       getInfo(m) {
         console.log("click : " + JSON.stringify(m))
       },
       setMyLocation() {
-        this.center.lat = this.myPosition.lat;
-        this.center.lng = this.myPosition.lng;
+        this.$refs.mapRef.panTo(this.myPosition);
+      },
+      onNearLocation() {
+        axios.get("https://conf.grepiu.com/sample/crawler/find", {
+          params: {
+            lat: this.currentLatLng.lat,
+            lng: this.currentLatLng.lng,
+            distance: 10
+          }
+        }).then((res)=>{
+          let item = res.data[this.nearIndex];
+          let lat = item.location == null?0:item.location.y;
+          let lng = item.location == null?0:item.location.x;
+          let storeName = item.storeName;
+          let position = {"lat" : lat , "lng" : lng};
+          this.onMarker(storeName, position);
+        }).catch((e)=>{
+          console.log(e);
+        })
       },
       findMyLocation() {
         if(navigator.geolocation){
@@ -100,8 +125,6 @@
             // Lat Lng 좌표값
             this.currentLatLng.lat = coordinates.lat;
             this.currentLatLng.lng = coordinates.lng;
-            // Zoom 값
-            this.zoom = 17;
             this.$parent.showLoading(false);
           });
         } else {
