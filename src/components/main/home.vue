@@ -44,7 +44,7 @@
     props : {
       title : String
     },
-    data() {
+    data : function() {
       return {
         nowData : "읽는중...",
         nowTime : "읽는중...",
@@ -55,7 +55,7 @@
         interval: false
       }
     },
-    created() {
+    created : function() {
       // 시간을 표출 한다.
       setInterval(()=>{
         var today = new Date();
@@ -82,14 +82,14 @@
       });
     },
     methods : {
-      zero(number) {
+      zero : function(number) {
         var d = "0000000000"+number;
         return d.substr(d.length-2, d.length);
       },
-      onSlideStart (slide) {
+      onSlideStart : function(slide) {
         this.sliding = true
       },
-      onSlideEnd (slide) {
+      onSlideEnd : function(slide) {
         this.sliding = false
       }
     }

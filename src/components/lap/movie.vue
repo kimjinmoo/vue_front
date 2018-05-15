@@ -8,7 +8,6 @@
       <b-button variant="success" v-on:click="onNearLocation">지도 기준 근처 영화관 검색(10km이내)</b-button>
     </b-button-group>
     <p>lat : {{currentLatLng.lat}} / lng : {{currentLatLng.lng}}</p>
-    <!--:dragend="myPosition"-->
     <!--@center_changed="updateCenter"-->
     <GmapMap :center="center"
              :zoom="zoom"
@@ -16,7 +15,6 @@
              ref="mapRef"
              @drag="onDrag"
              @dragend="onDragend"
-             @center_changed="updateCenter"
     >
       <GmapMarker
           :key="m.id"
@@ -44,7 +42,7 @@
 
   export default {
     name : "movie",
-    data() {
+    data : function() {
       return {
         nearIndex : 0,
         markers : [],
@@ -67,17 +65,17 @@
       }
     },
     methods : {
-      onDrag() {
+      onDrag : function() {
         this.cineInfo = [];
         this.nearIndex = 0;
       },
-      onDragend() {
+      onDragend : function() {
         this.$refs.mapRef.$mapPromise.then((map) => {
           this.currentLatLng.lat =  map.getCenter().lat();
           this.currentLatLng.lng =  map.getCenter().lng();
         });
       },
-      onMarker(storeName, position) {
+      onMarker : function(storeName, position) {
         this.$refs.mapRef.panTo(position);
         axios.get("https://conf.grepiu.com/sample/crawler/lotteCine/"+storeName).then((res)=>{
           this.cineInfo = res.data;
@@ -86,15 +84,15 @@
           this.onNearLocation();
         });
       },
-      updateCenter() {
+      updateCenter : function() {
       },
-      getInfo(m) {
+      getInfo : function(m) {
         console.log("click : " + JSON.stringify(m))
       },
-      setMyLocation() {
+      setMyLocation : function() {
         this.$refs.mapRef.panTo(this.myPosition);
       },
-      onNearLocation() {
+      onNearLocation : function() {
         axios.get("https://conf.grepiu.com/sample/crawler/find", {
           params: {
             lat: this.currentLatLng.lat,
@@ -112,7 +110,7 @@
           console.log(e);
         })
       },
-      findMyLocation() {
+      findMyLocation : function() {
         if(navigator.geolocation){
           this.$getLocation()
           .then(coordinates => {
@@ -125,20 +123,17 @@
             // Lat Lng 좌표값
             this.currentLatLng.lat = coordinates.lat;
             this.currentLatLng.lng = coordinates.lng;
-            this.$parent.showLoading(false);
           });
         } else {
           this.message = "Web에서 지원하지 않습니다.";
           this.center.lat = 0;
           this.center.lng = 0;
-          this.$parent.showLoading(false);
         }
 
       }
 
     },
-    beforeCreate() {
-      this.$parent.showLoading(true);
+    beforeCreate : function() {
       axios.get("https://conf.grepiu.com/sample/crawler/lotteCineLocale")
       .then((response) => {
         let map = [];
@@ -154,7 +149,7 @@
         console.log(e);
       })
     },
-    created() {
+    created : function() {
       if(md.is("iPhone")) {
         this.showDismissibleAlert = true;
         this.message = "아이폰 설정 >> 개인 정보 보호 >> 위치 서비스 >> Safari 웹 사이트 >> 안함-> 앱을 사용하는 동안 체크";

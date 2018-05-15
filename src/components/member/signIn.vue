@@ -24,13 +24,11 @@
 </template>
 <script>
   import firebase from 'firebase';
-  import loading from 'vue-full-loading'
   export default {
     name: 'signIn',
     components:{
-      loading
     },
-     data() {
+     data : function() {
       return {
         show: true,
         label: 'Loading...',
@@ -41,12 +39,12 @@
       }
      },
     methods : {
-      successLogin() {
+      successLogin : function() {
         firebase.auth().onAuthStateChanged((u)=>{
           if(u) this.$router.replace('/');
         });
       },
-      signInByFaceBook() {
+      signInByFaceBook : function() {
         this.$parent.showLoading(true);
         var provider = new firebase.auth.FacebookAuthProvider();
         firebase.auth().signInWithPopup(provider).then(()=> {
@@ -65,7 +63,7 @@
           }
         }).then(()=>{this.$parent.showLoading(false);});
       },
-      signInByGoogle() {
+      signInByGoogle : function() {
         this.$parent.showLoading(true);
         var provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(()=> {
@@ -84,7 +82,7 @@
           }
         }).then(()=>{this.$parent.showLoading(false);});
       },
-      signIn() {
+      signIn : function() {
         this.$parent.showLoading(true);
         firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password).then(
             () => {

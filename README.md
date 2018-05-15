@@ -19,6 +19,9 @@ npm install -g npm-install-peers
 npm install --save firebase
 npm install --save vue-browser-geolocation
 npm install --save vue2-google-maps
+*web호환성
+npm install --save babel-polyfill 
+npm i -s core-js
 </pre>
 
 <h5>Git에서 받은 후 작업</h5>

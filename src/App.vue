@@ -1,9 +1,5 @@
 <template>
   <div id="app">
-    <loading
-        :show="isLoading"
-        :label="label">
-    </loading>
     <b-navbar toggleable="md" type="light" variant="write" v-scroll="scrollHandler">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar-brand to="/" >GrepIU</b-navbar-brand>
@@ -38,7 +34,6 @@
 <script>
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
-  import loading from 'vue-full-loading'
   import axios from 'axios'
   import firebase from 'firebase'
   import homeFooter from '@/components/main/footer'
@@ -46,7 +41,6 @@
   export default {
     name: 'app',
     components : {
-      loading,
       homeFooter
     },
     directives : {
@@ -63,7 +57,7 @@
         }
       }
     },
-    data() {
+    data : function() {
       return {
         u : {},
         isLogin : false,
@@ -79,7 +73,7 @@
       }
     },
     methods: {
-      scrollHandler() {
+      scrollHandler : function() {
         if(window.scrollY > 80) {
           this.isMenuHide = true;
         } else {
@@ -87,10 +81,10 @@
         }
         console.log(this.isMenuHide);
       },
-      showLoading(is) {
+      showLoading : function(is) {
         this.isLoading = is;
       },
-      loginProc(user) {
+      loginProc : function(user) {
         //loding end
         this.show = false;
         if(user) {
@@ -100,14 +94,13 @@
           this.isLogin = false;
         }
       },
-      signOut() {
+      signOut : function() {
         firebase.auth().signOut().then(()=>{
           this.isLogin = false;
         });
-
       }
     },
-    created() {
+    created : function() {
       // get Menu
       axios.get("/fake/headMenu.json")
       .then((response) => {

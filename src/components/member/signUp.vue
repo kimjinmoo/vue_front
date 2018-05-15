@@ -23,7 +23,7 @@
 
   export default {
     name: 'signUp',
-    data() {
+    data : function() {
       return {
         email : "",
         password : "",
@@ -31,7 +31,7 @@
       }
     },
     methods : {
-      onBack() {
+      onBack : function() {
         this.$router.go(-1);
       },
       onSignUp : function() {
