@@ -12,13 +12,13 @@
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
-            <template slot="button-content">
-              <span v-if="!isLogin">계정관리</span>
+            <template slot="button-content" v-b-popover.hover="'I am popover content!'" title="Popover Title">
+              <span v-if="!isLogin">계정</span>
               <span v-else>{{u.email}}</span>
             </template>
             <b-nav-item v-if="!isLogin" to="/signIn">로그인</b-nav-item>
             <b-nav-item v-if="!isLogin">도움말</b-nav-item>
-            <b-nav-item v-if="isLogin">계정관리</b-nav-item>
+            <b-nav-item v-if="isLogin">계정수정</b-nav-item>
             <b-nav-item v-if="isLogin" v-on:click="signOut">로그아웃</b-nav-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>

@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid">
-    About
+    하고 싶은거 하면서 돈벌고 싶다~
+
   </div>
 </template>
 <script>
