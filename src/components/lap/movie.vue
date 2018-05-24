@@ -30,6 +30,7 @@
         현재 나의 위치!!
       </gmap-info-window>
     </GmapMap>
+    <h6>{{selectedStoreName}}</h6>
     <b-table striped hover :items="cineInfo"></b-table>
   </div>
 </template>
@@ -44,29 +45,29 @@
     name : "movie",
     data : function() {
       return {
-        nearIndex : 0,
-        markers : [],
-        cineInfo : [],
-        myPosition : {
+        selectedStoreName : "",   // 선택된 스토어 정보
+        nearIndex : 0, // 가까운 순위 인덱스 최초 0순위로 찾기 시작한다.
+        markers : [],   // 마커, 영화관 위치를 표시힌다.
+        cineInfo : [],  // 영화 정보
+        myPosition : {  // 나의 위치
           lat : 0,
           lng : 0
         },
-        currentLatLng : {
+        currentLatLng : { // 현재 좌표
           lat : 37.5665,
           lng : 126.9780
         },
-        center : {
+        center : {     // 지도상 가운데 위치의 좌표
           lat : 37.5665,
           lng : 126.9780
         },
-        zoom : 15,
+        zoom : 15, // 지도의 Zoom 값
         message : "",
         showDismissibleAlert : false
       }
     },
     methods : {
       onDrag : function() {
-        this.cineInfo = [];
         this.nearIndex = 0;
       },
       onDragend : function() {
@@ -76,6 +77,7 @@
         });
       },
       onMarker : function(storeName, position) {
+        this.selectedStoreName = storeName;
         this.$refs.mapRef.panTo(position);
         axios.get("https://conf.grepiu.com/sample/crawler/lotteCine/"+storeName).then((res)=>{
           this.cineInfo = res.data;
