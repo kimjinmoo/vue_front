@@ -48,10 +48,18 @@
     },
     methods : {
       animation_command : function(){
-        if(this.commandBar == "_"){
-          this.commandBar = "";
+        if(this.commandBar.indexOf("_") != -1){
+          console.log("index : " + this.commandBar.indexOf("_"));
+          this.commandBar = this.commandBar.replace("_","");
+          console.log("index text: " + this.commandBar);
         } else {
-          this.commandBar = "_";
+          this.commandBar+="_";
+        }
+        var greet = ["H","e","l","l","o"];
+        if(this.commandCount == (greet.length+5)){
+          this.commandBar = this.commandBar.replace("_","");
+          console.log(this.commandCount-(greet.length+5));
+          this.commandBar += greet[this.commandCount-(greet.length+5)];
         }
         this.commandCount++;
       },

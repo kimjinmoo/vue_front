@@ -4,6 +4,10 @@
       <p>확인 하시려면 more Info 클릭</p>
       <b-btn variant="primary" to="/lab/movie">More Info</b-btn>
     </b-jumbotron>
+    <b-jumbotron header="Selenium Session" lead="Selenium" >
+      <p>확인 하시려면 more Info 클릭</p>
+      <b-btn variant="primary" href="http://13.124.113.142:9200/wd/hub/" target="_blank">More Info</b-btn>
+    </b-jumbotron>
     <b-jumbotron header="스웨거 API" lead="API 목록" >
       <p>확인 하시려면 more Info 클릭</p>
       <b-btn variant="primary" href="https://conf.grepiu.com/swagger-ui.html" target="_blank">More Info</b-btn>
