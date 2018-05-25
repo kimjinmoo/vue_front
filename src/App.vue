@@ -100,7 +100,7 @@
         });
       }
     },
-    created : function() {
+    beforeCreate : function() {
       // get Menu
       axios.get("/fake/headMenu.json")
       .then((response) => {
@@ -109,6 +109,8 @@
       .catch(() => {
         // console.log("err");
       })
+    },
+    created : function() {
       // Firebase Auth
       firebase.auth().onAuthStateChanged(this.loginProc);
     }
