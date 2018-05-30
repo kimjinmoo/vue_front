@@ -46,8 +46,6 @@
     directives : {
       scroll : {
         inserted : function(el, binding) {
-          console.log("el : " + el);
-          console.log("binding : " + binding);
           let f = function(evt) {
             if(binding.value(evt, el)) {
               window.removeEventListener('scroll', f)
@@ -68,9 +66,8 @@
       }
     },
     watch : {
-      '$route' (to, from) {
-        console.log(">>>>>>>>>>>" +to+from);
-      }
+      // '$route' (to, from) {
+      // }
     },
     methods: {
       scrollHandler : function() {
@@ -85,8 +82,7 @@
         this.isLoading = is;
       },
       loginProc : function(user) {
-        //loding end
-        this.show = false;
+        //this.show = false;
         if(user) {
           this.u = user;
           this.isLogin = true;

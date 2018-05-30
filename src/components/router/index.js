@@ -72,8 +72,6 @@ router.beforeEach((to,from,next) =>{
   firebase.auth().onAuthStateChanged(()=>{
     const currentUser = firebase.auth().currentUser;
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    console.log("currentUser : "+currentUser);
-    console.log("requiresAuth : "+requiresAuth);
     if (requiresAuth && !currentUser) {
       next('/signIn');
     } else if (requiresAuth && currentUser) {

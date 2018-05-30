@@ -1,9 +1,9 @@
 <template>
   <div class="container-fluid">
     <div class="grp bg_00">
-      <p class="day_text">{{nowData}}</p>
-      <p class="time_text">{{nowTime}}</p>
-      <p class="text_commandBar">{{commandBar}}</p>
+      <p class="day_text">{{nowData}}&nbsp;</p>
+      <p class="time_text">{{nowTime}}&nbsp;</p>
+      <p class="text_commandBar">{{commandBar}}&nbsp;</p>
     </div>
   </div>
 </template>
@@ -30,11 +30,11 @@
         startDelayTime : 1000
       }
     },
-    created : function() {
+    mounted : function() {
       // 시간을 표출 한다.
       setInterval(()=>{
         this.animation_command();
-      },300)
+      },350)
       setTimeout(()=>{
         // setInterval(()=>{
         //   var today = new Date();
@@ -47,20 +47,32 @@
       }, this.startDelayTime)
     },
     methods : {
+      getRandomChar : function() {
+        var r = Math.floor(Math.random()*26)
+        return String.fromCharCode(65+r);
+      },
       animation_command : function(){
         if(this.commandBar.indexOf("_") != -1){
-          console.log("index : " + this.commandBar.indexOf("_"));
           this.commandBar = this.commandBar.replace("_","");
-          console.log("index text: " + this.commandBar);
         } else {
           this.commandBar+="_";
         }
-        var greet = ["H","e","l","l","o"];
-        if(this.commandCount == (greet.length+5)){
-          this.commandBar = this.commandBar.replace("_","");
-          console.log(this.commandCount-(greet.length+5));
-          this.commandBar += greet[this.commandCount-(greet.length+5)];
+        var typeEvent = Math.floor(Math.random()*10);
+        console.log(this.commandCount%3);
+        if(this.commandCount%3==0)
+        switch(typeEvent) {
+          case 0 :
+          case 1 :
+          case 2 :
+            this.commandBar = this.commandBar.replace("_","");
+            this.commandBar += this.getRandomChar();
+            break;
+          default :
+            this.commandBar = this.commandBar.replace("_","");
+            this.commandBar = this.commandBar.substring(0,this.commandBar.length-1)
+            break;
         }
+
         this.commandCount++;
       },
       zero : function(number) {
@@ -74,7 +86,7 @@
   @media (max-width: 575px) {
     .grp {
       width : 100%;
-      height : 400px;
+      height : 370px;
     }
     .bg_00 {
       background-color: #343a40;
@@ -83,7 +95,7 @@
   @media (min-width: 576px) {
     .grp {
       width : 100%;
-      height : 400px;
+      height : 370px;
     }
     .bg_00 {
       background-color: #343a40;
@@ -92,7 +104,7 @@
   @media (min-width: 768px) {
     .grp {
       width : 100%;
-      height : 400px;
+      height : 370px;
     }
     .bg_00 {
       background-color: #343a40;
@@ -101,7 +113,7 @@
   @media (min-width: 992px) {
     .grp {
       width : 100%;
-      height : 590px;
+      height : 570px;
     }
     .bg_00 {
       background-color: #343a40;
@@ -110,7 +122,7 @@
   @media (min-width: 1200px) {
     .grp {
       width : 100%;
-      height : 770px;
+      height : 750px;
     }
     .bg_00 {
       background-color: #343a40;
