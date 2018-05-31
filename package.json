@@ -17,11 +17,13 @@
     "glyphicons": "^0.2.0",
     "mobile-detect": "^1.4.1",
     "npm": "^6.0.0",
+    "sockjs-client": "^1.1.5",
     "vue": "^2.5.13",
     "vue-browser-geolocation": "^1.0.1",
     "vue-router": "^3.0.1",
     "vue2-google-maps": "^0.9.7",
-    "webpack": "^3.11.0"
+    "webpack": "^3.11.0",
+    "webstomp-client": "^1.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.6",

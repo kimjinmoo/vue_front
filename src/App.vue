@@ -18,7 +18,7 @@
             </template>
             <b-nav-item v-if="!isLogin" to="/signIn">로그인</b-nav-item>
             <b-nav-item v-if="!isLogin">도움말</b-nav-item>
-            <b-nav-item v-if="isLogin">계정수정</b-nav-item>
+            <b-nav-item v-if="isLogin" to="/member/account">계정수정</b-nav-item>
             <b-nav-item v-if="isLogin" v-on:click="signOut">로그아웃</b-nav-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -29,6 +29,10 @@
     </main>
     <!-- Footer -->
     <homeFooter></homeFooter>
+    <!-- 소켓알람-->
+    <b-modal ref="alertModar" centered title="알림" ok-only>
+      {{socketMessage}}
+    </b-modal>
   </div>
 </template>
 <script>
@@ -37,6 +41,8 @@
   import axios from 'axios'
   import firebase from 'firebase'
   import homeFooter from '@/components/main/footer'
+  import SockJS from 'sockjs-client'
+  import Stomp from 'webstomp-client'
 
   export default {
     name: 'app',
@@ -62,7 +68,8 @@
         isMenuHide : false,
         menuLists: [],
         isLoading : false,
-        label : '데이터를 읽고 있습니다.'
+        label : '데이터를 읽고 있습니다.',
+        socketMessage : ""
       }
     },
     watch : {
@@ -70,6 +77,34 @@
       // }
     },
     methods: {
+      send () {
+        if (this.stompClient && this.stompClient.connected) {
+          this.stompClient.send('/app/chat', this.send_message, {})
+        }
+      },
+      connect : function() {
+        this.socket = new SockJS('http://conf.grepiu.com/ws');
+        this.stompClient = Stomp.over(this.socket);
+        this.stompClient.connect({}, ()=>{
+          this.connected = true;
+          this.stompClient.subscribe("/topic/messages", (tick) => {
+            this.socketMessage = JSON.parse(tick.body).message;
+            this.$refs.alertModar.show();
+          })
+        },(error) => {
+          console.log(error);
+          this.connected =false;
+        })
+      },
+      disconnect () {
+        if (this.stompClient) {
+          this.stompClient.disconnect()
+        }
+        this.connected = false
+      },
+      tickleConnection () {
+        this.connected ? this.disconnect() : this.connect()
+      },
       scrollHandler : function() {
         if(window.scrollY > 80) {
           this.isMenuHide = true;
@@ -86,7 +121,10 @@
         if(user) {
           this.u = user;
           this.isLogin = true;
+          // 웹소켓 접속
+          this.connect();
         } else {
+          this.disconnect();
           this.isLogin = false;
         }
       },
@@ -106,7 +144,7 @@
         // console.log("err");
       })
     },
-    created : function() {
+    mounted : function() {
       // Firebase Auth
       firebase.auth().onAuthStateChanged(this.loginProc);
     }

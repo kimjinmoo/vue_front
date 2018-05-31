@@ -58,7 +58,7 @@
           this.commandBar+="_";
         }
         var typeEvent = Math.floor(Math.random()*10);
-        console.log(this.commandCount%3);
+        //console.log(this.commandCount%3);
         if(this.commandCount%3==0)
         switch(typeEvent) {
           case 0 :

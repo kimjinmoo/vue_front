@@ -10,6 +10,8 @@ import SignIn from '@/components/member/signIn'
 import Post from "@/components/post/post"
 import PostView from '@/components/post/view'
 
+import MyAccount from "@/components/member/myAccount"
+
 import Lab from "@/components/lap/lab"
 import Movie from '@/components/lap/movie'
 import firebase from "firebase/index";
@@ -63,6 +65,14 @@ const router = Vue.router = new VueRouter({
       component: Movie,
       meta: {
         requiresAuth: true
+      }
+    },
+    {
+      path : "/member/account",
+      name : "MyAccount",
+      component : MyAccount,
+      meta : {
+        requiresAuth : true
       }
     }
   ]
