@@ -83,7 +83,7 @@
         }
       },
       connect : function() {
-        this.socket = new SockJS('http://conf.grepiu.com/ws');
+        this.socket = new SockJS('https://conf.grepiu.com/ws');
         this.stompClient = Stomp.over(this.socket);
         this.stompClient.connect({}, ()=>{
           this.connected = true;
