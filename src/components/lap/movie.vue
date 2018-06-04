@@ -17,6 +17,7 @@
              @dragend="onDragend"
     >
       <GmapMarker
+          :icon="{url:'/img/cinema_lotte_icon.png',size: {width: 52, height: 52, f: 'px', b: 'px'},scaledSize: {width: 23, height: 23, f: 'px', b: 'px'}}"
           :key="m.id"
           v-for="(m) in markers"
           :position="m.position"
