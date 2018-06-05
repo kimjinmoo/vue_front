@@ -3,12 +3,10 @@
     <b-alert dismissible
              :show="showDismissibleAlert"
              @dismissed="showDismissibleAlert=false">{{message}}</b-alert>
-    <b-button-group>
-      <b-button variant="primary" v-on:click="setMyLocation">현재위치</b-button>
-      <b-button variant="primary" v-on:click="onNearLocation">영화관찾기(100km이내)</b-button>
-      <b-button variant="secondary" v-on:click="onNextNearLocation">Next</b-button>
-    </b-button-group>
-    <p>lat : {{currentLatLng.lat}} / lng : {{currentLatLng.lng}}</p>
+    <div>
+        <h3>{{selectedStoreName}}</h3>
+    </div>
+    <p style="display: none;">lat : {{currentLatLng.lat}} / lng : {{currentLatLng.lng}}</p>
     <!--@center_changed="updateCenter"-->
     <GmapMap :center="center"
              :zoom="zoom"
@@ -32,7 +30,14 @@
         현재 나의 위치!!
       </gmap-info-window>
     </GmapMap>
-    <h6>{{selectedStoreName}}</h6>
+    <div>
+      <b-button variant="primary" v-on:click="findMyLocation">나의위치</b-button>
+      <b-button variant="primary" v-on:click="findNearLocation">영화관 찾기(100km이내)</b-button>
+      <b-button-group>
+        <b-button :disabled="isDataExists" variant="secondary" v-on:click="findPrevNearLocation">Prev</b-button>
+        <b-button :disabled="isDataExists" variant="secondary" v-on:click="findNextNearLocation">Next</b-button>
+      </b-button-group>
+    </div>
     <b-table show-empty striped hover :items="cineInfo" :fields="cineFields" empty-text="데이터가 존재하지 안습니다.">
     </b-table>
   </div>
@@ -48,14 +53,14 @@
     name : "movie",
     data : function() {
       return {
-        selectedStoreName : "",   // 선택된 스토어 정보
+        isDataExists : true,
+        selectedStoreName : "-",   // 선택된 스토어 정보
         nearIndex : 0, // 가까운 순위 인덱스 최초 0순위로 찾기 시작한다.
         nearCine : [],
         markers : [],   // 마커, 영화관 위치를 표시힌다.
         cineFields : [
           {key : "movieName", label : "영화명", sortable: true},
           {key : "room", label : "상영관"},
-          {key : "seat", label : "좌석수", sortable: true},
           {key : "time", label : "상영시작시간", sortable: true}
         ],
         cineInfo : [],  // 영화 정보
@@ -77,42 +82,48 @@
       }
     },
     methods : {
+      setCurrentLanLng : function(lat, lng) {
+        //현재 좌표를 Set 한다.
+        this.currentLatLng.lat =  lat;
+        this.currentLatLng.lng =  lng;
+      },
+      setMyLocation : function(lat, lng) {
+        this.myPosition.lat = lat;
+        this.myPosition.lng = lng;
+      },
       onDrag : function() {
-        this.nearIndex = 0;
+        // drag 이벤트 등록
       },
       onDragend : function() {
+        // drag 종료 이벤트 등록
         this.$refs.mapRef.$mapPromise.then((map) => {
-          this.currentLatLng.lat =  map.getCenter().lat();
-          this.currentLatLng.lng =  map.getCenter().lng();
+          this.setCurrentLanLng(map.getCenter().lat(), map.getCenter().lng());
         });
+      },
+      updateCenter : function() {
+        // Map 센터값 변경시 이벤트 처리
       },
       onMarker : function(storeName, position) {
         this.selectedStoreName = storeName;
         this.$refs.mapRef.panTo(position);
+        this.setCurrentLanLng(position.lat, position.lng);
         axios.get("https://conf.grepiu.com/sample/crawler/cine/screen/"+storeName).then((res)=>{
-          console.log(JSON.stringify(res.data));
-          if(res.data != "") {
+          if(res.data.length > 0) {
             this.cineInfo = res.data;
           } else {
             this.cineInfo = [];
           }
         }).catch((e)=>{
           console.log(e);
-          //this.nearIndex++;
-          //this.onNearLocation();
         });
       },
-      updateCenter : function() {
-      },
-      getInfo : function(m) {
-        console.log("click : " + JSON.stringify(m))
-      },
-      setMyLocation : function() {
+      findMyLocation : function() {
         this.$refs.mapRef.panTo(this.myPosition);
-        this.currentLatLng.lat = this.myPosition.lat;
-        this.currentLatLng.lng = this.myPosition.lng;
+        this.setCurrentLanLng(this.myPosition.lat, this.myPosition.lng);
       },
-      onNearLocation : function() {
+      findNearLocation : function() {
+        this.isDataExists = false;
+        // 인접 index 초기화
         this.nearIndex = 0;
         axios.get("https://conf.grepiu.com/sample/crawler/cine/near", {
           params: {
@@ -132,27 +143,33 @@
           console.log(e);
         })
       },
-      onNextNearLocation : function() {
-        let item = this.nearCine[++this.nearIndex];
+      findPrevNearLocation : function() {
+        let item = this.nearCine[this.nearIndex==0?0:--this.nearIndex];
         let lat = item.location == null?0:item.location.y;
         let lng = item.location == null?0:item.location.x;
         let storeName = item.storeName;
         let position = {"lat" : lat , "lng" : lng};
         this.onMarker(storeName, position);
       },
-      findMyLocation : function() {
+      findNextNearLocation : function() {
+        let item = this.nearCine[this.nearIndex>this.nearIndex.length?this.nearIndex:++this.nearIndex];
+        let lat = item.location == null?0:item.location.y;
+        let lng = item.location == null?0:item.location.x;
+        let storeName = item.storeName;
+        let position = {"lat" : lat , "lng" : lng};
+        this.onMarker(storeName, position);
+      },
+      initLocation : function() {
         if(navigator.geolocation){
           this.$getLocation()
           .then(coordinates => {
             // 현재 나의 위치 infoWindow
-            this.myPosition.lat = coordinates.lat;
-            this.myPosition.lng = coordinates.lng;
+            this.setMyLocation(coordinates.lat, coordinates.lng);
             // google Map Center
             this.center.lat = coordinates.lat;
             this.center.lng = coordinates.lng;
             // Lat Lng 좌표값
-            this.currentLatLng.lat = coordinates.lat;
-            this.currentLatLng.lng = coordinates.lng;
+            this.setCurrentLanLng(coordinates.lat, coordinates.lng);
           });
         } else {
           this.message = "Web에서 지원하지 않습니다.";
@@ -189,7 +206,7 @@
         this.showDismissibleAlert = true;
         this.message = "아이폰 설정 >> 개인 정보 보호 >> 위치 서비스 >> Safari 웹 사이트 >> 안함-> 앱을 사용하는 동안 체크";
       }
-      this.findMyLocation();
+      this.initLocation();
     }
   };
 </script>
