@@ -5,7 +5,7 @@
              @dismissed="showDismissibleAlert=false">{{message}}</b-alert>
     <b-button-group>
       <b-button variant="primary" v-on:click="setMyLocation">현재위치</b-button>
-      <b-button variant="primary" v-on:click="onNearLocation">지도 기준 근처 영화관 검색(100km이내)</b-button>
+      <b-button variant="primary" v-on:click="onNearLocation">영화관찾기(100km이내)</b-button>
       <b-button variant="secondary" v-on:click="onNextNearLocation">Next</b-button>
     </b-button-group>
     <p>lat : {{currentLatLng.lat}} / lng : {{currentLatLng.lng}}</p>
