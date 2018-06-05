@@ -4,8 +4,9 @@
              :show="showDismissibleAlert"
              @dismissed="showDismissibleAlert=false">{{message}}</b-alert>
     <b-button-group>
-      <b-button variant="success" v-on:click="setMyLocation">현재위치</b-button>
-      <b-button variant="success" v-on:click="onNearLocation">지도 기준 근처 영화관 검색(10km이내)</b-button>
+      <b-button variant="primary" v-on:click="setMyLocation">현재위치</b-button>
+      <b-button variant="primary" v-on:click="onNearLocation">지도 기준 근처 영화관 검색(100km이내)</b-button>
+      <b-button variant="secondary" v-on:click="onNextNearLocation">Next</b-button>
     </b-button-group>
     <p>lat : {{currentLatLng.lat}} / lng : {{currentLatLng.lng}}</p>
     <!--@center_changed="updateCenter"-->
@@ -32,7 +33,8 @@
       </gmap-info-window>
     </GmapMap>
     <h6>{{selectedStoreName}}</h6>
-    <b-table striped hover :items="cineInfo"></b-table>
+    <b-table show-empty striped hover :items="cineInfo" :fields="cineFields" empty-text="데이터가 존재하지 안습니다.">
+    </b-table>
   </div>
 </template>
 <script>
@@ -48,7 +50,14 @@
       return {
         selectedStoreName : "",   // 선택된 스토어 정보
         nearIndex : 0, // 가까운 순위 인덱스 최초 0순위로 찾기 시작한다.
+        nearCine : [],
         markers : [],   // 마커, 영화관 위치를 표시힌다.
+        cineFields : [
+          {key : "movieName", label : "영화명", sortable: true},
+          {key : "room", label : "상영관"},
+          {key : "seat", label : "좌석수", sortable: true},
+          {key : "time", label : "상영시작시간", sortable: true}
+        ],
         cineInfo : [],  // 영화 정보
         myPosition : {  // 나의 위치
           lat : 0,
@@ -80,8 +89,13 @@
       onMarker : function(storeName, position) {
         this.selectedStoreName = storeName;
         this.$refs.mapRef.panTo(position);
-        axios.get("https://conf.grepiu.com/sample/crawler/lotteCine/"+storeName).then((res)=>{
-          this.cineInfo = res.data;
+        axios.get("https://conf.grepiu.com/sample/crawler/cine/screen/"+storeName).then((res)=>{
+          console.log(JSON.stringify(res.data));
+          if(res.data != "") {
+            this.cineInfo = res.data;
+          } else {
+            this.cineInfo = [];
+          }
         }).catch((e)=>{
           console.log(e);
           //this.nearIndex++;
@@ -95,16 +109,20 @@
       },
       setMyLocation : function() {
         this.$refs.mapRef.panTo(this.myPosition);
+        this.currentLatLng.lat = this.myPosition.lat;
+        this.currentLatLng.lng = this.myPosition.lng;
       },
       onNearLocation : function() {
-        axios.get("https://conf.grepiu.com/sample/crawler/find", {
+        this.nearIndex = 0;
+        axios.get("https://conf.grepiu.com/sample/crawler/cine/near", {
           params: {
             lat: this.currentLatLng.lat,
             lng: this.currentLatLng.lng,
-            distance: 10
+            distance: 100
           }
         }).then((res)=>{
-          let item = res.data[this.nearIndex];
+          this.nearCine = res.data;
+          let item = this.nearCine[this.nearIndex];
           let lat = item.location == null?0:item.location.y;
           let lng = item.location == null?0:item.location.x;
           let storeName = item.storeName;
@@ -113,6 +131,14 @@
         }).catch((e)=>{
           console.log(e);
         })
+      },
+      onNextNearLocation : function() {
+        let item = this.nearCine[++this.nearIndex];
+        let lat = item.location == null?0:item.location.y;
+        let lng = item.location == null?0:item.location.x;
+        let storeName = item.storeName;
+        let position = {"lat" : lat , "lng" : lng};
+        this.onMarker(storeName, position);
       },
       findMyLocation : function() {
         if(navigator.geolocation){
@@ -138,20 +164,20 @@
 
     },
     beforeCreate : function() {
-      axios.get("https://conf.grepiu.com/sample/crawler/lotteCineLocale")
+      axios.get("https://conf.grepiu.com/sample/crawler/cine/locale")
       .then((response) => {
         let map = [];
         for(var inx in response.data) {
           let item = response.data[inx];
           let lat = item.location == null?0:item.location.y;
           let lng = item.location == null?0:item.location.x;
+          // todo. 로직 수정해야됨
           if(item.type == 'lotte') {
             map.push({"position" : {"lng" : lng, "lat" : lat}, "storeName" : item.storeName, "type" : item.type, "url" : "/img/cinema_lotte_icon.png"})
           } else {
             map.push({"position" : {"lng" : lng, "lat" : lat}, "storeName" : item.storeName, "type" : item.type, "url" : "/img/cinema_cgv_icon.png"})
           }
         }
-        console.log(JSON.stringify(map));
         this.markers = map;
       })
       .catch((e)=>{
