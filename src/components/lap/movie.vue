@@ -17,11 +17,11 @@
              @dragend="onDragend"
     >
       <GmapMarker
-          :icon="{url:'/img/cinema_lotte_icon.png',size: {width: 52, height: 52, f: 'px', b: 'px'},scaledSize: {width: 23, height: 23, f: 'px', b: 'px'}}"
           :key="m.id"
           v-for="(m) in markers"
           :position="m.position"
           :title="m.storeName"
+          :icon="{url: m.url, scaledSize: {width: 52, height: 45, f: 'px', b: 'px'}}"
           :clickable="true"
           :draggable="false"
           :InfoWindow="m.storeName"
@@ -82,9 +82,10 @@
         this.$refs.mapRef.panTo(position);
         axios.get("https://conf.grepiu.com/sample/crawler/lotteCine/"+storeName).then((res)=>{
           this.cineInfo = res.data;
-        }).catch(()=>{
-          this.nearIndex++;
-          this.onNearLocation();
+        }).catch((e)=>{
+          console.log(e);
+          //this.nearIndex++;
+          //this.onNearLocation();
         });
       },
       updateCenter : function() {
@@ -144,8 +145,13 @@
           let item = response.data[inx];
           let lat = item.location == null?0:item.location.y;
           let lng = item.location == null?0:item.location.x;
-          map.push({"position" : {"lng" : lng, "lat" : lat}, "storeName" : item.storeName})
+          if(item.type == 'lotte') {
+            map.push({"position" : {"lng" : lng, "lat" : lat}, "storeName" : item.storeName, "type" : item.type, "url" : "/img/cinema_lotte_icon.png"})
+          } else {
+            map.push({"position" : {"lng" : lng, "lat" : lat}, "storeName" : item.storeName, "type" : item.type, "url" : "/img/cinema_cgv_icon.png"})
+          }
         }
+        console.log(JSON.stringify(map));
         this.markers = map;
       })
       .catch((e)=>{
