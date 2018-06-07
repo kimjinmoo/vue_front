@@ -3,17 +3,14 @@
     <b-card no-body>
       <b-tabs card>
         <b-tab title="읽기" active>
-          <section class="py-5">
-            <div v-for="(item) in sectionLists" :key="item.id">
-              <h1>{{item.title}}</h1>
-              <p>{{item.description}}
-                <b-button size="sm" variant="outline-success">이동</b-button>
-              </p>
-            </div>
-          </section>
+          <div v-for="(item) in sectionLists" :key="item.id">
+            <h3>{{item.subject}}<b-button @click="onDelete(item.id)">삭제</b-button></h3>
+          </div>
+          <b-pagination align="center" size="md" :total-rows="tCount" v-model="cPage" :per-page="5" @input="getList(cPage-1)"></b-pagination>
+          page : {{cPage}}
         </b-tab>
         <b-tab title="쓰기">
-          Tab Contents 2
+          <vue-editor v-model="editor.content" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
         </b-tab>
       </b-tabs>
     </b-card>
@@ -21,22 +18,71 @@
 </template>
 <script>
   import axios from 'axios'
+  import { VueEditor } from 'vue2-editor'
 
   export default {
     name: "Post",
+    components : {
+      VueEditor
+    },
     data : function(){
       return {
+        editor : {
+          content: '<h1>Some initial content</h1>'
+        },
+        tCount : 0,
+        cPage : 0,
+        size : 15,
         sectionLists: []
       }
     },
-    created : function() {
-      // 세션 text를 불러온다.
-      axios.get("/fake/sectionData.json")
-      .then((response) => {
-        this.sectionLists = response.data.sectionLists;
-      }).catch(()=>{
+    methods : {
+      handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {
+        // An example of using FormData
+        // NOTE: Your key could be different such as:
+        // formData.append('file', file)
 
-      });
+        var formData = new FormData();
+        formData.append('file', file)
+
+        axios.post('https://conf.grepiu.com/sample/upload/file', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        .then((result) => {
+          let url = result.data.url // Get url from response
+          Editor.insertEmbed(cursorLocation, 'image', url);
+          resetUploader();
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      },
+      onCreate : function() {
+
+      },
+      onDelete : function(id) {
+        axios.delete("https://conf.grepiu.com/sample/post/"+id)
+        .then((r)=> {
+          console.log(r);
+          this.getList(0);
+        })
+      },
+      getList : function(page) {
+        // 세션 text를 불러온다.
+        axios.get("https://conf.grepiu.com/sample/post",{
+          params : {
+            currentPage : page,
+            size : this.size
+          }
+        })
+        .then((response) => {
+          this.sectionLists = response.data.list;
+          this.tCount = response.data.tCount;
+        }).catch(()=>{
+
+        });
+      }
+    },
+    created : function() {
+      this.getList(this.cPage);
     }
   }
 </script>
