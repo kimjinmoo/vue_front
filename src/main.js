@@ -20,9 +20,11 @@ import {config} from './config/firebaseConfig'
 import firebase from 'firebase'
 import VueGeolocation from 'vue-browser-geolocation';
 import * as VueGoogleMaps from 'vue2-google-maps'
+import VueCarousel from 'vue-carousel';
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
+Vue.use(VueCarousel);
 Vue.use(VueGeolocation);
 Vue.use(VueGoogleMaps, {
   load: {

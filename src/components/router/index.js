@@ -56,7 +56,7 @@ const router = Vue.router = new VueRouter({
       name : 'Lab',
       component: Lab,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -64,7 +64,7 @@ const router = Vue.router = new VueRouter({
       name: "Movie",
       component: Movie,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {

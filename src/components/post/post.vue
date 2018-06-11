@@ -10,7 +10,16 @@
           page : {{cPage}}
         </b-tab>
         <b-tab title="쓰기">
-          <vue-editor v-model="editor.content" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
+          <b-alert :show="editor.alert">등록되었습니다.</b-alert>
+          <b-form-input v-model="editor.subject"
+                        type="text"
+                        placeholder="제목을 입력하여주십시요."></b-form-input>
+          <div style="margin-top: 5pt">
+            <vue-editor v-model="editor.content" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
+          </div>
+          <div align="right" style="margin-top: 5pt">
+            <b-button variant="success" @click="onCreate">등록</b-button>
+          </div>
         </b-tab>
       </b-tabs>
     </b-card>
@@ -28,7 +37,9 @@
     data : function(){
       return {
         editor : {
-          content: '<h1>Some initial content</h1>'
+          alert : false,
+          subject : "",
+          content: ''
         },
         tCount : 0,
         cPage : 0,
@@ -37,6 +48,10 @@
       }
     },
     methods : {
+      initEditor : function() {
+        this.editor.content = "";
+        this.editor.subject = "";
+      },
       handleImageAdded: function(file, Editor, cursorLocation, resetUploader) {
         // An example of using FormData
         // NOTE: Your key could be different such as:
@@ -56,7 +71,18 @@
         })
       },
       onCreate : function() {
-
+        axios.post("https://conf.grepiu.com/sample/post", {
+          "subject" : this.editor.subject,
+          "content" : this.editor.content,
+          "regId" : ""
+        }).then((r) => {
+          console.log(r);
+          this.initEditor();
+          this.editor.alert=true;
+          this.getList(0);
+        }).catch((e)=>{
+          console.log(e);
+        })
       },
       onDelete : function(id) {
         axios.delete("https://conf.grepiu.com/sample/post/"+id)

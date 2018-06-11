@@ -6,7 +6,10 @@
       <b-collapse is-nav id="nav_collapse" right>
         <b-navbar-nav>
           <b-nav-item to="/about">About</b-nav-item>
-          <b-nav-item v-if="isLogin" :to="menu.url" v-for="menu in menuLists"
+          <b-nav-item v-if="menu.requiresAuth==false" :to="menu.url" v-for="menu in menuLists"
+                      v-bind:key="menu.id">{{menu.name}}
+          </b-nav-item>
+          <b-nav-item v-if="isLogin && menu.requiresAuth==true" :to="menu.url" v-for="menu in menuLists"
                       v-bind:key="menu.id">{{menu.name}}
           </b-nav-item>
         </b-navbar-nav>

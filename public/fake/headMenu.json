@@ -3,12 +3,20 @@
     {
       "id" : 1,
       "name" : "Lap",
-      "url" : "/lab"
+      "url" : "/lab",
+      "requiresAuth" : false
     },
     {
       "id" : 2,
       "name" : "Post",
-      "url" : "/post"
+      "url" : "/post",
+      "requiresAuth" : true
+    },
+    {
+      "id" : 3,
+      "name" : "Root",
+      "url" : "/root",
+      "requiresAuth" : true
     }
   ]
 }
