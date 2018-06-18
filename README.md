@@ -22,6 +22,13 @@ npm install --save vue2-google-maps
 *web호환성
 npm install --save babel-polyfill 
 npm i -s core-js
+*editor
+npm install --save vue2-editor
+=> https://www.npmjs.com/package/vue2-editor
+npm i quill-image-resize-module --save
+=> https://www.npmjs.com/package/quill-image-resize-module
+npm i quill-image-resize-module --save
+=> https://www.npmjs.com/package/quill-image-resize-module
 </pre>
 
 <h5>Git에서 받은 후 작업</h5>

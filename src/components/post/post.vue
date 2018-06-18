@@ -4,7 +4,7 @@
       <b-tabs card>
         <b-tab title="읽기" active>
           <div v-for="(item) in sectionLists" :key="item.id">
-            <h3>{{item.subject}}<b-button @click="onDelete(item.id)">삭제</b-button></h3>
+            <h3><router-link :to="{ name : 'PostView', params : {id : item.id }}">{{item.subject}}</router-link><b-button @click="onDelete(item.id)">삭제</b-button></h3>
           </div>
           <b-pagination align="center" size="md" :total-rows="tCount" v-model="cPage" :per-page="5" @input="getList(cPage-1)"></b-pagination>
           page : {{cPage}}
@@ -14,6 +14,9 @@
           <b-form-input v-model="editor.subject"
                         type="text"
                         placeholder="제목을 입력하여주십시요."></b-form-input>
+          <div style="margin-top: 5pt">
+            <b-form-select v-model="editor.category_selected" :options="editor.category_options" class="mb-3" size="sm" />
+          </div>
           <div style="margin-top: 5pt">
             <vue-editor v-model="editor.content" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
           </div>
@@ -37,6 +40,11 @@
     data : function(){
       return {
         editor : {
+          category_selected : "lab",
+          category_options: [
+            {value: "lab", text: "Lab"},
+            {value: "post", text: "Post"}
+          ],
           alert : false,
           subject : "",
           content: ''
@@ -73,10 +81,10 @@
       onCreate : function() {
         axios.post("https://conf.grepiu.com/sample/post", {
           "subject" : this.editor.subject,
+          "category" : this.editor.category_selected,
           "content" : this.editor.content,
           "regId" : ""
-        }).then((r) => {
-          console.log(r);
+        }).then(() => {
           this.initEditor();
           this.editor.alert=true;
           this.getList(0);
