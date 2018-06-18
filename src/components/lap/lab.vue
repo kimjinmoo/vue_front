@@ -72,10 +72,10 @@
       <div align="center">
         <h2>작성한 글</h2>
       </div>
-      <div>
+      <div class="innerPost">
         <b-row>
-          <b-col col lg="2">
-            <b-list-group style="width:200px; position: absolute;">
+          <b-col col lg="2" class="post_navi">
+            <b-list-group >
               <div v-for="(item) in sectionLists" :key="item.id">
                 <h5><b-list-group-item :href="'#'+item.id">{{item.subject}}</b-list-group-item></h5>
               </div>
@@ -84,7 +84,7 @@
               </div>
             </b-list-group>
           </b-col>
-          <b-col>
+          <b-col col lg="5">
             <div id="grep_post">
               <div v-for="(item) in sectionLists" :key="item.id">
                 <h4 :id="item.id"><router-link :to="{ name : 'PostView', params : {id : item.id }}">{{item.subject}}</router-link></h4>
@@ -186,6 +186,12 @@
     -webkit-overflow-scrolling: touch;
   }
   @media (max-width: 575px) {
+    /*.post_navi {*/
+      /*display: none;*/
+    /*}*/
+    /*.innerPost{*/
+      /*max-width: 575px;*/
+    /*}*/
     .label {
       text-align: center;
       width : 50%;
@@ -193,6 +199,12 @@
     }
   }
   @media (min-width: 576px) {
+    /*.post_navi {*/
+      /*display: none;*/
+    /*}*/
+    /*.innerPost{*/
+      /*max-width: 576px;*/
+    /*}*/
     .label {
       text-align: center;
       width : 50%;
@@ -200,6 +212,12 @@
     }
   }
   @media (min-width: 768px) {
+    /*.post_navi {*/
+      /*display: none;*/
+    /*}*/
+    /*.innerPost{*/
+      /*max-width: 768px;*/
+    /*}*/
     .label {
       text-align: center;
       width : 50%;
