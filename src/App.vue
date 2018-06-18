@@ -14,6 +14,10 @@
           </b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
+          <b-nav-form>
+            <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
+            <b-button size="sm" class="my-2 my-sm-0" @click="onSearch">Search</b-button>
+          </b-nav-form>
           <b-nav-item-dropdown right>
             <template slot="button-content" v-b-popover.hover="'I am popover content!'" title="Popover Title">
               <span v-if="!isLogin">계정</span>
@@ -80,7 +84,10 @@
       // }
     },
     methods: {
-      send () {
+      onSearch : function() {
+        this.$router.push("/search")
+      },
+      send : function() {
         if (this.stompClient && this.stompClient.connected) {
           this.stompClient.send('/app/chat', this.send_message, {})
         }

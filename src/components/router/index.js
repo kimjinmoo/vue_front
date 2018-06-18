@@ -12,6 +12,8 @@ import PostView from '@/components/post/view'
 
 import MyAccount from "@/components/member/myAccount"
 
+import Search from "@/components/search/search"
+
 import Lab from "@/components/lap/lab"
 import Movie from '@/components/lap/movie'
 import firebase from "firebase/index";
@@ -74,6 +76,15 @@ const router = Vue.router = new VueRouter({
       meta : {
         requiresAuth : true
       }
+    },
+    {
+      path : "/search",
+      name : "Search",
+      component : Search,
+      meta : {
+        requiresAuth : false
+      }
+
     }
   ]
 });

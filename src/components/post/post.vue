@@ -6,7 +6,7 @@
           <div v-for="(item) in sectionLists" :key="item.id">
             <h3><router-link :to="{ name : 'PostView', params : {id : item.id }}">{{item.subject}}</router-link><b-button @click="onDelete(item.id)">삭제</b-button></h3>
           </div>
-          <b-pagination align="center" size="md" :total-rows="tCount" v-model="cPage" :per-page="5" @input="getList(cPage-1)"></b-pagination>
+          <b-pagination align="center" size="md" :total-rows="tCount" v-model="cPage" :per-page="size" @input="getList(cPage-1)"></b-pagination>
           page : {{cPage}}
         </b-tab>
         <b-tab title="쓰기">
