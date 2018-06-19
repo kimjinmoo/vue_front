@@ -15,8 +15,8 @@
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
-            <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
-            <b-button size="sm" class="my-2 my-sm-0" @click="onSearch">Search</b-button>
+            <b-form-input size="sm" class="mr-sm-2 search" type="text" placeholder="Search" @focus="onFocusSearch" @blur="onBlurSearch"/>
+            <b-button v-if="searchMode">검색</b-button>
           </b-nav-form>
           <b-nav-item-dropdown right>
             <template slot="button-content" v-b-popover.hover="'I am popover content!'" title="Popover Title">
@@ -70,6 +70,7 @@
     },
     data : function() {
       return {
+        searchMode : false,
         u : {},
         isLogin : false,
         isMenuHide : false,
@@ -86,6 +87,14 @@
     methods: {
       onSearch : function() {
         this.$router.push("/search")
+      },
+      onFocusSearch : function() {
+        console.log("onFocus");
+        this.searchMode = true;
+      },
+      onBlurSearch : function() {
+        console.log("onBlur");
+        this.searchMode = false;
       },
       send : function() {
         if (this.stompClient && this.stompClient.connected) {
@@ -160,3 +169,9 @@
     }
   }
 </script>
+<style>
+  .search {
+    background: url('/img/icon_search.png') left no-repeat;
+    padding-left: 30px;
+  }
+</style>
