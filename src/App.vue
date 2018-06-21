@@ -12,12 +12,9 @@
           <b-nav-item v-if="isLogin && menu.requiresAuth==true" :to="menu.url" v-for="menu in menuLists"
                       v-bind:key="menu.id">{{menu.name}}
           </b-nav-item>
+          <b-nav-item to="/search">Search</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-form>
-            <b-form-input size="sm" class="mr-sm-2 search" type="text" placeholder="Search" @focus="onFocusSearch" @blur="onBlurSearch"/>
-            <b-button v-if="searchMode">검색</b-button>
-          </b-nav-form>
           <b-nav-item-dropdown right>
             <template slot="button-content" v-b-popover.hover="'I am popover content!'" title="Popover Title">
               <span v-if="!isLogin">계정</span>
