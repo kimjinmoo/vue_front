@@ -23,7 +23,7 @@
               <p>CI 배포</p>
             </div>
             <div class="more">
-              <b-btn variant="primary" href="http://13.124.113.142:9000/" target="_blank">확인하기(새창)</b-btn>
+              <b-btn variant="primary" href="https://jenkins.grepiu.com" target="_blank">확인하기(새창)</b-btn>
             </div>
           </div>
         </slide>
@@ -33,7 +33,7 @@
             <div class="content">
               <p>크롤링 및 Test 자동화</p>
             </div>
-            <div class="more"><b-btn variant="primary" href="http://13.124.113.142:9200/wd/hub/" target="_blank">확인하기(새창)</b-btn></div>
+            <div class="more"><b-btn variant="primary" href="http://conf.grepiu.com:9200/wd/hub/" target="_blank">확인하기(새창)</b-btn></div>
           </div>
         </slide>
         <slide class="label bg swagger">
@@ -68,33 +68,30 @@
           </div>
         </slide>
       </carousel>
-    <div class="post">
+    <b-container fluid class="post">
       <div align="center">
         <h2>작성한 글</h2>
       </div>
-      <div class="innerPost">
-        <b-row>
-          <b-col col lg="2" class="post_navi">
-            <b-list-group >
-              <div v-for="(item) in sectionLists" :key="item.id">
-                <h5><b-list-group-item :href="'#'+item.id">{{item.subject}}</b-list-group-item></h5>
-              </div>
-              <div>
-                <b-pagination align="center" size="sm" :total-rows="tCount" v-model="cPage" :per-page="size" @input="getList(cPage-1)"></b-pagination>
-              </div>
-            </b-list-group>
-          </b-col>
-          <b-col col lg="5">
-            <div id="grep_post">
-              <div v-for="(item) in sectionLists" :key="item.id">
-                <h4 :id="item.id"><router-link :to="{ name : 'PostView', params : {id : item.id }}">{{item.subject}}</router-link></h4>
-                <div v-html="item.content"></div>
-              </div>
+      <b-row>
+        <b-col col lg="2" class="post_navi">
+          <b-list-group>
+              <b-list-group-item>글 List</b-list-group-item>
+              <b-list-group-item :href="'#'+item.id" class="small" v-for="(item) in sectionLists" :key="item.id">{{item.subject}}</b-list-group-item>
+          </b-list-group>
+        </b-col>
+        <b-col col>
+          <div id="grep_post">
+            <div v-for="(item) in sectionLists" :key="item.id">
+              <h2 :id="item.id" class="text-dark">{{item.subject}}-(최종수정:{{item.modifyDate}})</h2>
+              <div class="text-justify" v-html="item.content"></div>
             </div>
-          </b-col>
-        </b-row>
+          </div>
+        </b-col>
+      </b-row>
+      <div>
+        <b-pagination align="center" size="sm" :total-rows="tCount" v-model="cPage" :per-page="size" @input="getList(cPage-1)"></b-pagination>
       </div>
-    </div>
+    </b-container>
   </div>
 </template>
 <script>
@@ -139,12 +136,12 @@
       }
     },
     watch : {
-      '$refs.carousel.currentPage' : function() {
-        console.log("watch!!");
-        if (this.currentPage !== this.$refs.carousel.currentPage) {
-          console.log(this.currentPage);
-        }
-      }
+      // '$refs.carousel.currentPage' : function() {
+      //   console.log("watch!!");
+      //   if (this.currentPage !== this.$refs.carousel.currentPage) {
+      //     console.log(this.currentPage);
+      //   }
+      // }
     },
     methods : {
       onPageChange : function(val) {
@@ -179,6 +176,7 @@
   }
 
   body {
+    background-color: #fefefe;
     height: 100%;
     padding: 0;
     overflow: auto;
@@ -186,12 +184,17 @@
     -webkit-overflow-scrolling: touch;
   }
   @media (max-width: 575px) {
-    /*.post_navi {*/
-      /*display: none;*/
-    /*}*/
+    .post_navi {
+      display: none;
+    }
     /*.innerPost{*/
       /*max-width: 575px;*/
     /*}*/
+    .post {
+      word-break:break-all;
+      width: 90%;
+      float: none !important;
+    }
     .label {
       text-align: center;
       width : 50%;
@@ -199,12 +202,18 @@
     }
   }
   @media (min-width: 576px) {
-    /*.post_navi {*/
-      /*display: none;*/
-    /*}*/
+    .post_navi {
+      display: none;
+    }
     /*.innerPost{*/
       /*max-width: 576px;*/
     /*}*/
+    .post {
+      word-break:break-all;
+      width: 90%;
+      overflow: hidden;
+      float: none !important;
+    }
     .label {
       text-align: center;
       width : 50%;
@@ -212,12 +221,18 @@
     }
   }
   @media (min-width: 768px) {
-    /*.post_navi {*/
-      /*display: none;*/
-    /*}*/
+    .post_navi {
+      display: none;
+    }
     /*.innerPost{*/
       /*max-width: 768px;*/
     /*}*/
+    .post {
+      word-break:normal;
+      width: 90%;
+      overflow: hidden;
+      float: none !important;
+    }
     .label {
       text-align: center;
       width : 50%;
@@ -225,6 +240,15 @@
     }
   }
   @media (min-width: 992px) {
+    .post_navi {
+      display: none;
+    }
+    .post {
+      word-break:normal;
+      width: 90%;
+      overflow: hidden;
+      float: none !important;
+    }
     .label {
       text-align: center;
       width : 50%;
@@ -232,6 +256,9 @@
     }
   }
   @media (min-width: 1200px) {
+    .post_navi {
+      display: inline;
+    }
     .label {
       text-align: center;
       width : 50%;
@@ -293,12 +320,5 @@
 
   .more a {
     margin-right: 1vw;
-  }
-
-  .post {
-    width: 98%;
-    margin : auto;
-    padding: 10px;
-    background-color: #fefefe;
   }
 </style>
