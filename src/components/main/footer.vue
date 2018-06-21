@@ -11,3 +11,8 @@
     name : "Footer"
   }
 </script>
+<style>
+  footer{
+    background-color: #fefefe;
+  }
+</style>
