@@ -176,7 +176,6 @@
   }
 
   body {
-    background-color: #fefefe;
     height: 100%;
     padding: 0;
     overflow: auto;

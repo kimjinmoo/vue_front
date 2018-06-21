@@ -167,6 +167,9 @@
   }
 </script>
 <style>
+  body {
+    background-color: #fefefe;
+  }
   .search {
     background: url('/img/icon_search.png') left no-repeat;
     padding-left: 30px;
