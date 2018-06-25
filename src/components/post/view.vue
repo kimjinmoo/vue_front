@@ -80,14 +80,15 @@
 
         axios.post('https://conf.grepiu.com/sample/upload/file', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
         .then((result) => {
-          let url = result.data.url // Get url from response
+          let url = "http://data.grepiu.com/"+result.data.fileName // Get url from response
+          console.log(url);
           Editor.insertEmbed(cursorLocation, 'image', url);
           resetUploader();
         })
         .catch((err) => {
           console.log(err);
         })
-      }
+      },
     },
     created : function(){
       axios.get("https://conf.grepiu.com/sample/post/"+this.$route.params.id).then((r)=>{
