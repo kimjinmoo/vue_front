@@ -10,8 +10,7 @@
           &nbsp;
           <a class="btn btn-primary social-login-btn social-facebook" href="javascript:void(0);" v-on:click="signInByFaceBook"><i class="fa icon-social-facebook"></i></a>
         </p>
-        <small class="text-muted">또는 일반 로그인</small>
-        <br><br><h1>회원가입 및 일반 로그인 준비중입니다.</h1>
+        <small class="text-muted">with firebase</small>
         <!--<input id="email" autocomplete="off"  v-model="form.email" class="ember-view ember-text-field form-control login-input" placeholder="이메일주소" type="text">-->
         <!--<input id="password" autocomplete="off" v-model="form.password" class="ember-view ember-text-field form-control login-input-pass" placeholder="비밀번호" type="password">-->
 

@@ -1,10 +1,18 @@
 <template>
   <div class="container-fluid">
-    <b-form>
-      <div class="w-100 " style="width: 100%; height:84vh; vertical-align: center; margin: auto" align="center">
-        <b-input class="mb-2 mr-sm-2 mb-sm-0 w-25 align-content-center" id="search" placeholder="검색어를 입력하세요"></b-input>
+    <div class="w-100 mx-auto">
+      <div class="text-center">
+        검색하기
       </div>
-    </b-form>
+      <form autocomplete="off">
+        <b-input-group size="mg w-75 mx-auto">
+          <b-input id="search" placeholder="검색어를 입력하세요" ></b-input>
+          <b-input-group-append>
+            <b-btn variant="outline-success">검색</b-btn>
+          </b-input-group-append>
+        </b-input-group>
+      </form>
+    </div>
   </div>
 </template>
 <script>
