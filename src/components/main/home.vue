@@ -24,8 +24,13 @@
         commandBar : "_",
         commandCount : 1,
         commandTexts : [
-            "hi!",
-            ""
+            "Hello!",
+            "안녕!",
+            "你好!",
+            "Salut!",
+            "",
+            "",
+            "ERROR!!"
         ],
         startDelayTime : 1000
       }
@@ -63,6 +68,7 @@
         switch(typeEvent) {
           case 0 :
           case 1 :
+            this.nowTime = this.commandTexts[Math.floor(Math.random()*this.commandTexts.length)];
           case 2 :
             this.commandBar = this.commandBar.replace("_","");
             this.commandBar += this.getRandomChar();

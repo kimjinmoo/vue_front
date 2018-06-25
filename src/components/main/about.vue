@@ -1,7 +1,14 @@
 <template>
   <div class="container-fluid">
-    하고 싶은거 하면서 돈벌고 싶다~
-
+    GrepIU 구성
+    Server
+    AWS EC2
+    API
+    Spring Boot 2.0
+    Front
+    Vue , Bootstrap-vue
+    Login
+    Firebase Login
   </div>
 </template>
 <script>
